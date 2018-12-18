@@ -1,5 +1,7 @@
 package com.demo.demo.Entity;
 
+import java.sql.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
@@ -20,13 +22,22 @@ public class Project extends EntityBase{
     private String promise;
 
     @Column
-    private String state;
+    private int state;
 
     @Column
     private String comment;
 
     @Column
     private String midreport;
+
+    @Column
+    private Date midtime;
+
+    @Column
+    private String finreport;
+
+    @Column
+    private Date fintime;
 
     public int getCode() {
         return code;
@@ -60,11 +71,11 @@ public class Project extends EntityBase{
         this.promise = promise;
     }
 
-    public String getState() {
+    public int getState() {
         return state;
     }
 
-    public void setState(String state) {
+    public void setState(int state) {
         this.state = state;
     }
 
@@ -84,11 +95,11 @@ public class Project extends EntityBase{
         this.midreport = midreport;
     }
 
-    public String getMidtime() {
+    public Date getMidtime() {
         return midtime;
     }
 
-    public void setMidtime(String midtime) {
+    public void setMidtime(Date midtime) {
         this.midtime = midtime;
     }
 
@@ -100,20 +111,11 @@ public class Project extends EntityBase{
         this.finreport = finreport;
     }
 
-    public String getFintime() {
+    public Date getFintime() {
         return fintime;
     }
 
-    public void setFintime(String fintime) {
+    public void setFintime(Date fintime) {
         this.fintime = fintime;
     }
-
-    @Column
-    private String midtime;
-
-    @Column
-    private String finreport;
-
-    @Column
-    private String fintime;
 }
