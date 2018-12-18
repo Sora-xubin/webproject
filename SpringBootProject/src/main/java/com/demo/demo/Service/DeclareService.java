@@ -5,14 +5,16 @@ import com.demo.demo.Dao.ProjectRuleDao;
 import com.demo.demo.Entity.ProjectRule;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 /**
- * Created by XB on 2018/12/17.
+ * Created by XB on 2018/12/18.
  */
 @Service
-public class ProjectRuleService {
+public class DeclareService {
     @Autowired
     private ProjectRuleDao projectRuleDao;
-
+    @Autowired
+    private ProjectDao projectDao;
     /**
      * 设置规则
      */
@@ -26,4 +28,5 @@ public class ProjectRuleService {
     public ProjectRule findRule(){
         return projectRuleDao.findFirstByOrderById();
     }
+
 }

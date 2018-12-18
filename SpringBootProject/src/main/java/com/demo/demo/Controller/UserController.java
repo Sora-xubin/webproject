@@ -14,7 +14,8 @@ import java.util.List;
 @RestController
 @EnableAutoConfiguration
 public class UserController {
-    NewService newService;
+    @Autowired
+    NewService newService = new NewService();
     @Autowired
     NewDao newDao;
     @RequestMapping("/hello")
