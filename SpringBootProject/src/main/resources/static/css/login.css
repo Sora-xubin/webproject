@@ -1,0 +1,46 @@
+body {
+  background: url(../images/0.jpg);
+  background-size: cover;
+  width: 100%;
+  overflow: hidden;
+}
+.layui-input {
+	border-radius: 4px;
+}
+@keyframes fade-in {
+  0% {
+    opacity: 0;
+    margin-top: 200px;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+.login-box {
+  border-radius: 4px;
+  width: 300px;
+  height: 350px;
+  margin: 120px auto 0;
+  background: rgba(180, 180, 180, 0.2);
+  text-align: center;
+  animation: fade-in 2s forwards ease-in-out;
+}
+
+.login-header {
+  text-align: center;
+  padding: 30px 0;
+}
+
+.login-header p {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.login-container {
+  width: 60%;
+  margin: 0 auto;
+}
+
+.login-btn {
+  width: 100%;
+}
