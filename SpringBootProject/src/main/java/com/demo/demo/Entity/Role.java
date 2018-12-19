@@ -12,6 +12,9 @@ public class Role extends EntityBase{
 
     @Column
     private String name;
+    
+    @Column
+    private String describe;
 
     public int getCode() {
         return code;
@@ -28,4 +31,13 @@ public class Role extends EntityBase{
     public void setName(String name) {
         this.name = name;
     }
+
+	public String getDescribe() {
+		return describe;
+	}
+
+	public void setDescribe(String describe) {
+		this.describe = describe;
+	}
+    
 }
