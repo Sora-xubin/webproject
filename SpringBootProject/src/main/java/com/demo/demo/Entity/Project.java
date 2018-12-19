@@ -25,7 +25,7 @@ public class Project extends EntityBase{
     private int state;
 
     @Column
-    private String comment;
+    private String remark;
 
     @Column
     private String midreport;
@@ -80,11 +80,11 @@ public class Project extends EntityBase{
     }
 
     public String getComment() {
-        return comment;
+        return remark;
     }
 
-    public void setComment(String comment) {
-        this.comment = comment;
+    public void setComment(String remark) {
+        this.remark = remark;
     }
 
     public String getMidreport() {
