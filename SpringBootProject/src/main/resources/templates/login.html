@@ -4,8 +4,11 @@
 <head>
   <meta charset="UTF-8">
   <!-- import CSS -->
-  <link rel="stylesheet" href="../assets/layui/css/layui.css" />
+  <link rel="stylesheet" th:href="@{../assets/layui/css/layui.css}">
+  <!-- import JavaScript -->
+  <script th:src="@{../assets/layui/layui.all.js}"></script>
   <link rel="stylesheet" href="../css/login.css" />
+  <title>登陆</title>
 </head>
 
 <body class="layui-layout-body">
@@ -38,8 +41,6 @@
     </div>
   </div>
 </body>
-<!-- import JavaScript -->
-<script src="../assets/layui/layui.all.js"></script>
 <script>
   //JavaScript代码区域
   layui.use(['element','form'], function () {
