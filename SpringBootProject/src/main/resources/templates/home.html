@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <!-- import CSS -->
+  <link rel="stylesheet" th:href="@{../assets/layui/css/layui.css}">
+  <title>首页</title>
+</head>
+
+<body class="layui-layout-body">
+  <div class="layui-layout layui-layout-admin">
+    <!-- header模板页 -->
+    <div th:replace="~{common/header::header}"></div>
+    <!-- navbar模板页 -->
+    <div th:replace="~{common/navbar::navbar}"></div>
+    <!-- 内容主体区域 -->
+    <div class="layui-body">
+      <div class="layui-tab layui-tab-card" lay-filter="tabs" lay-allowClose="true" style="margin-top:0;">
+        <ul class="layui-tab-title">
+          <li class="layui-this">首页</li>
+        </ul>
+        <div class="layui-tab-content" style="height: 100px;">
+          <div class="layui-tab-item layui-show">
+            <iframe src="/upload" frameborder="0"></iframe>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+
+<!-- import JavaScript -->
+<script th:src="@{../assets/layui/layui.all.js}"></script>
+<script>
+  //JavaScript代码区域
+  layui.use(['element', 'jquery'], function () {
+    var element = layui.element
+      , $ = layui.$;
+
+    //监听导航点击，增加Tab标签
+    $(".layui-nav-tree .layui-nav-child a").click(function () {
+      //首先检查tab标签是否已经存在
+      var totaltab = $(".layui-tab-title").find("li");
+      var ht = $(this).html();
+      for (let i = 0; i < totaltab.length; i++) {
+        if ($(totaltab[i]).html().indexOf(ht) == 0) {
+          element.tabChange('tabs', $(totaltab[i]).attr("lay-id"));
+          return;
+        }
+      }
+      //不存在则添加
+      element.tabAdd('tabs', {
+        title: $(this).html(),
+        content: $(this).attr("data-url"),
+        id: $(this).html()
+      })
+      //添加后跳转
+      element.tabChange('tabs', $(this).html());
+    })
+  });
+
+</script>
+
+</html>

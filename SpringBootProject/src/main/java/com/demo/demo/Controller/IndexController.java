@@ -13,6 +13,16 @@ public class IndexController {
 	
 	@GetMapping(value = "/index")
     public String main(Model model) {
-        return "index";
+        return "home";
     }
+
+    @GetMapping(value = "/upload")
+	public String uploadMaterial() {
+		return "upload_material.html";
+	}
+
+	@GetMapping(value = "/project_list")
+	public String approvedProjectList() {
+		return "/middle/approved_project_list";
+	}
 }

@@ -28,6 +28,7 @@ public class UserController {
     NewService newService = new NewService();
     @Autowired
     NewDao newDao;
+<<<<<<< HEAD
     @Autowired
     private UserService userService ;
     @RequestMapping("/hello")
@@ -43,6 +44,8 @@ public class UserController {
     public String main(Model model) {
         return "index";
     }
+=======
+>>>>>>> ff286436a0ee674da3292bfe795bc860d2cbcb28
 
     @RequestMapping("/News")
     @ResponseBody
