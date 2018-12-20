@@ -14,7 +14,7 @@ public class User extends EntityBase{
      * 用户编号
      */
     @Column
-    private int code;
+    private Integer code;
 
     /**
      * user_password
@@ -63,7 +63,7 @@ public class User extends EntityBase{
      * 用户角色编码
      */
     @Column
-    private int rolecode;
+    private Integer rolecode;
 
     /**
      * user_remark

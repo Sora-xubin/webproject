@@ -10,6 +10,9 @@ public class Module extends EntityBase{
 	
 	@Column
 	private String modulename;
+	
+	@Column
+	private String url;
 
 	public String getModulename() {
 		return modulename;
@@ -17,6 +20,14 @@ public class Module extends EntityBase{
 
 	public void setModulename(String modulename) {
 		this.modulename = modulename;
+	}
+
+	public String getUrl() {
+		return url;
+	}
+
+	public void setUrl(String url) {
+		this.url = url;
 	}
 	
 	
