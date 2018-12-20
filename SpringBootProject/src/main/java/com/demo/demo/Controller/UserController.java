@@ -18,10 +18,6 @@ public class UserController {
     NewService newService = new NewService();
     @Autowired
     NewDao newDao;
-    @RequestMapping("/hello")
-    public String hi(){
-        return "hello world";
-    }
 
     @RequestMapping("/News")
     public List<New> news(){
