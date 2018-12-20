@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <!-- import CSS -->
+  <link rel="stylesheet" href="../static/assets/layui/css/layui.css">
+  <!-- import JavaScript -->
+  <script src="../static/assets/layui/layui.all.js"></script>
+  <title>已立项项目列表</title>
+</head>
+
+<body>
+  <table class="layui-table">
+    <thead>
+      <tr>
+        <th>项目名称</th>
+        <th>项目负责人</th>
+        <th>项目进度</th>
+        <th>相关操作</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr th:each="project : ${projects}">
+        <td th:text="${priject.name}">java</td>
+        <td th:text="${priject.user}">lopez</td>
+        <td th:text="${project.status}">中期检查待审</td>
+        <td>
+          <button id="setBtn" class="layui-btn layui-btn-radius layui-btn-normal">设置</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div id="info" style="display:none;">
+    <form action="" class="layui-form" style="margin-top: 10px;">
+      <div class="layui-form-item">
+        <div class="layui-inline">
+          <label class="layui-form-label">截止日期：</label>
+          <div class="layui-input-inline">
+            <input type="text" class="layui-input" id="datepicker" placeholder="yyyy-MM-dd">
+          </div>
+        </div>
+      </div>
+      <div class="layui-form-item layui-form-text">
+        <label for="" class="layui-form-label">项目描述：</label>
+        <div class="layui-input-inline">
+          <textarea name="describe" id="describe" cols="40" rows="10" class="layui-textarea"></textarea>
+        </div>
+      </div>
+    </form>
+  </div>
+</body>
+
+<script>
+  layui.use(['layer', 'jquery', 'laydate'], function () {
+    var layer = layui.layer,
+      $ = layui.$,
+      laydate = layui.laydate;
+
+    laydate.render({
+      elem: '#datepicker'
+    })
+
+    $('#setBtn').click(function setInfo() {
+      layer.open({
+        type: 1,
+        title: "输入层",
+        area: '500px',
+        content: $('#info'),
+      })
+    })
+  })
+</script>
+
+</html>
