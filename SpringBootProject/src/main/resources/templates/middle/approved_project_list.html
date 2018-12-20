@@ -2,68 +2,59 @@
 <html>
 
 <head>
-    <meta charset="UTF-8">
-    <!-- import CSS -->
-    <link rel="stylesheet" th:href="@{../assets/layui/css/layui.css}">
-    <title>项目周期管理系统</title>
+  <meta charset="UTF-8">
+  <!-- import CSS -->
+  <link rel="stylesheet" th:href="@{../assets/layui/css/layui.css}">
+  <title>项目周期管理系统</title>
 </head>
 
-<body class="layui-layout-body">
-<div class="layui-layout layui-layout-admin">
-    <div th:replace="~{common/header::header}"></div>
-    <div th:replace="~{common/navbar::navbar}"></div>
+<body>
+  <table class="layui-table" style="margin-top:0;">
+    <thead>
+      <tr>
+        <th>项目名称</th>
+        <th>项目负责人</th>
+        <th>项目进度</th>
+        <th>相关操作</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>java</td>
+        <td>lopez</td>
+        <td>中期检查待审</td>
+        <td>
+          <button id="setBtn" class="layui-btn layui-btn-sm layui-btn-radius layui-btn-normal">设置</button>
+        </td>
+      </tr>
+      <!--<tr th:each="project : ${projects}">-->
+      <!--<td th:text="${priject.name}">java</td>-->
+      <!--<td th:text="${priject.user}">lopez</td>-->
+      <!--<td th:text="${project.status}">中期检查待审</td>-->
+      <!--<td>-->
+      <!--<button id="setBtn" class="layui-btn layui-btn-radius layui-btn-normal">设置</button>-->
+      <!--</td>-->
+      <!--</tr>-->
+    </tbody>
+  </table>
 
-    <div class="layui-body">
-        <!-- 内容主体区域 -->
-        <table class="layui-table" style="margin-top:0;">
-            <thead>
-            <tr>
-                <th>项目名称</th>
-                <th>项目负责人</th>
-                <th>项目进度</th>
-                <th>相关操作</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr>
-                <td>java</td>
-                <td>lopez</td>
-                <td>中期检查待审</td>
-                <td>
-                    <button id="setBtn" class="layui-btn layui-btn-radius layui-btn-normal">设置</button>
-                </td>
-            </tr>
-            <!--<tr th:each="project : ${projects}">-->
-                <!--<td th:text="${priject.name}">java</td>-->
-                <!--<td th:text="${priject.user}">lopez</td>-->
-                <!--<td th:text="${project.status}">中期检查待审</td>-->
-                <!--<td>-->
-                    <!--<button id="setBtn" class="layui-btn layui-btn-radius layui-btn-normal">设置</button>-->
-                <!--</td>-->
-            <!--</tr>-->
-            </tbody>
-        </table>
-
-        <div id="info" style="display:none;">
-            <form action="" class="layui-form" style="margin-top: 10px;">
-                <div class="layui-form-item">
-                    <div class="layui-inline">
-                        <label for="datepicker" class="layui-form-label">截止日期：</label>
-                        <div class="layui-input-inline">
-                            <input type="text" class="layui-input" id="datepicker" placeholder="yyyy-MM-dd">
-                        </div>
-                    </div>
-                </div>
-                <div class="layui-form-item layui-form-text">
-                    <label for="describe" class="layui-form-label">项目描述：</label>
-                    <div class="layui-input-inline">
-                        <textarea name="describe" id="describe" cols="40" rows="10" class="layui-textarea"></textarea>
-                    </div>
-                </div>
-            </form>
+  <div id="info" style="display:none;">
+    <form action="" class="layui-form" style="margin-top: 10px;">
+      <div class="layui-form-item">
+        <div class="layui-inline">
+          <label for="datepicker" class="layui-form-label">截止日期：</label>
+          <div class="layui-input-inline">
+            <input type="text" class="layui-input" id="datepicker" placeholder="yyyy-MM-dd">
+          </div>
         </div>
-    </div>
-</div>
+      </div>
+      <div class="layui-form-item layui-form-text">
+        <label for="describe" class="layui-form-label">项目描述：</label>
+        <div class="layui-input-inline">
+          <textarea name="describe" id="describe" cols="40" rows="10" class="layui-textarea"></textarea>
+        </div>
+      </div>
+    </form>
 </body>
 
 <!-- import JavaScript -->
