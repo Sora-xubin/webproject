@@ -34,10 +34,40 @@ public class Project extends EntityBase{
     private Date midtime;
 
     @Column
+    private String midexplain;
+
+    @Column
     private String finreport;
 
     @Column
     private Date fintime;
+
+    @Column
+    private String finexplain;
+
+    public String getRemark() {
+        return remark;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark;
+    }
+
+    public String getMidexplain() {
+        return midexplain;
+    }
+
+    public void setMidexplain(String midexplain) {
+        this.midexplain = midexplain;
+    }
+
+    public String getFinexplain() {
+        return finexplain;
+    }
+
+    public void setFinexplain(String finexplain) {
+        this.finexplain = finexplain;
+    }
 
     public int getCode() {
         return code;

@@ -6,6 +6,8 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.util.List;
+
 
 public interface UserDao extends JpaRepository<User,Integer> {
    
@@ -21,6 +23,5 @@ public interface UserDao extends JpaRepository<User,Integer> {
 			+ "u.remark=:remark where u.code=:code")
 	public void UptateUser(@Param("code") Integer code,@Param("name") String name,@Param("department") String department,
 			@Param("state")String state,@Param("rolecode")Integer rolecode,@Param("remark")String remark);
-	
-	
+
 }

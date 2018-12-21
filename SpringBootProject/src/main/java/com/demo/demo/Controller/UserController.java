@@ -2,7 +2,10 @@ package com.demo.demo.Controller;
 
 
 import com.demo.demo.Dao.NewDao;
+import com.demo.demo.Entity.Comment;
 import com.demo.demo.Entity.New;
+import com.demo.demo.Entity.Project;
+import com.demo.demo.Service.DeclareService;
 import com.demo.demo.Service.NewService;
 import com.demo.demo.Service.UserService;
 
@@ -28,36 +31,24 @@ public class UserController {
     NewService newService = new NewService();
     @Autowired
     NewDao newDao;
-<<<<<<< HEAD
+    @Autowired
+    DeclareService declareService;
+
     @Autowired
     private UserService userService ;
     @RequestMapping("/hello")
     public String hi(){
         return "hello world";
     }
-    @GetMapping(value= "/")
-	public String login(Model model) {
-		return "login";
-	}
-	
-	@GetMapping(value = "/index")
-    public String main(Model model) {
-        return "index";
-    }
-=======
->>>>>>> ff286436a0ee674da3292bfe795bc860d2cbcb28
 
-    @RequestMapping("/News")
+
+    @RequestMapping("/test")
     @ResponseBody
-    public List<New> news(){
-        New n = new New();
-        n.setNews("llala");
-        n.setState("1");
-        n.setUsercode(123);
-        n.setTime("1221");
-        newService.saveNew(n);
+    public List<Comment> comments(){
+        Project project = new Project();
+        project.setCode(1);
 
-        return newDao.findAll();
+        return declareService.findComment(project);
     }
     
     

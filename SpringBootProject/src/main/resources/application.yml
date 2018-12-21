@@ -3,7 +3,7 @@ spring:
     driver-class-name: com.mysql.jdbc.Driver
     url: jdbc:mysql://localhost:3306/web_project?useSSL=true&serverTimezone=UTC
     username: root
-    password: sn5d.Iphone6
+    password: 123456
   jpa:
     hibernate:
       ddl-auto: update
@@ -13,3 +13,5 @@ spring:
     mode: HTML5
     servlet:
       content-type: text/html; charset=utf-8
+server:
+  port: 8800
