@@ -7,6 +7,7 @@ spring:
   jpa:
     hibernate:
       ddl-auto: update
+ 
     show-sql: false
   thymeleaf:
     encoding: UTF-8
@@ -14,4 +15,5 @@ spring:
     servlet:
       content-type: text/html; charset=utf-8
 server:
+
   port: 8800

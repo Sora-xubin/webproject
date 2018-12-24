@@ -1,6 +1,5 @@
 package com.demo.demo.Controller;
 
-
 import com.demo.demo.Dao.NewDao;
 import com.demo.demo.Entity.Comment;
 import com.demo.demo.Entity.New;
@@ -27,6 +26,7 @@ import javax.annotation.PostConstruct;
 @Controller
 @EnableAutoConfiguration
 public class UserController {
+
     @Autowired
     NewService newService = new NewService();
     @Autowired
@@ -51,62 +51,99 @@ public class UserController {
         return declareService.findComment(project);
     }
     
-    
-    /**
-     * 保存一个用户并跳转到list界面
-     * xtf
-     */
-    @RequestMapping(value="/user/save" ,method=RequestMethod.POST)
-    public String save() {
-    	
-    	return "/user/list";
-    }
-    /**
-     * 修改一个用户信息并跳转到list界面
-     * 
-     * @xtf
-     */
-    @RequestMapping(value="/user/update",method=RequestMethod.POST)
-    public String update() {
-    	return "/user/main";
-    }
-    
-    /**
-     * 删除一个用户并跳转到list界面
-     * @xtf
-     */
-    @RequestMapping(value="/user/delete",method=RequestMethod.POST)
-    public String delete() {
-    	return "/user/main";
-    }
-    /**
-     * 查询所有用户，返回用户信息
-     * @return
-     */
-    @RequestMapping(value="/user/search" ,method=RequestMethod.GET)
-    @ResponseBody
-    public String findAll() {
-    	return "";
-    }
-    
-    /**
-     * 
-     * 密码重置
-     * @xtf
-     */
-    @RequestMapping(value="/user/password",method=RequestMethod.POST)
-    public String resetPassword(String password) {
-    	
-    	return "user/main";    }
-    
-    /**
-     * 角色分配
-     * @xtf
-     */
-    @RequestMapping(value="/user/distribute",method=RequestMethod.GET)
-    
-    public String distributeUser() {
-    	return "user/main";
-    }
-    
+	/**
+	 * 打开新增的页面
+	 * 
+	 */
+
+	@RequestMapping(value = "/user/save", method = RequestMethod.GET)
+	public String userAdd() {
+		return "/user/add";
+	}
+	/**
+	 * 
+	 * 实现新增用户并保存
+	 */
+	@RequestMapping(value="/useradd", method = RequestMethod.GET)
+	@ResponseBody
+	public String userSave() {
+		
+		
+		return "新增成功";
+	}
+	/**
+	 * 打开修改用户界面
+	 * 和新增是同一个页面
+	 * 
+	 * 
+	 */
+	@RequestMapping(value = "/user/update", method = RequestMethod.GET)
+	
+	public String openUpdate() {
+		
+		return "/user/add";
+	}
+	/**
+	 * 进行数据修改
+	 */
+	@RequestMapping(value="/userupdate", method = RequestMethod.GET)
+	@ResponseBody
+	public String updateUser() {
+		return "修改成功";
+	}
+	/**
+	 * 删除一个用户
+	 * 
+	 */
+	@RequestMapping(value = "/userdelete", method = RequestMethod.POST)
+	@ResponseBody
+	public String delete() {
+		return "删除成功";
+	}
+
+	/**
+	 * 查询所有用户，返回用户信息
+	 * 
+	 */
+	@RequestMapping(value = "/usersearch", method = RequestMethod.GET)
+	@ResponseBody
+	public String search() {
+		return "查询结果";
+	}
+	/**
+	 * 打开密码重置页面
+	 * 
+	 */
+	@RequestMapping(value = "/user/password", method = RequestMethod.GET)
+	public String openResetPwd() {
+		return "/user/password";
+	}
+	
+	/**
+	 * 
+	 * 实现密码重置
+	 * 
+	 */
+	
+	@RequestMapping(value = "/user/password", method = RequestMethod.POST)
+	public String resetPassword(String password) {
+
+		return "user/main";
+	}
+	
+	@RequestMapping(value = "/user/roleallot", method = RequestMethod.GET)
+	public String openRoleallot() {
+		return "user/allot";
+	}
+	/**
+	 * 角色分配
+	 * 
+	 */
+	@RequestMapping(value = "/user/distribute", method = RequestMethod.GET)
+
+	public String distributeUser() {
+		return "角色分配成功";
+	}
+
+
 }
