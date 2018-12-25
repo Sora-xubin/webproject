@@ -26,26 +26,12 @@ import javax.annotation.PostConstruct;
 public class UserController {
     @Autowired
     NewService newService = new NewService();
+
     @Autowired
     NewDao newDao;
-<<<<<<< HEAD
+
     @Autowired
     private UserService userService ;
-    @RequestMapping("/hello")
-    public String hi(){
-        return "hello world";
-    }
-    @GetMapping(value= "/")
-	public String login(Model model) {
-		return "login";
-	}
-	
-	@GetMapping(value = "/index")
-    public String main(Model model) {
-        return "index";
-    }
-=======
->>>>>>> ff286436a0ee674da3292bfe795bc860d2cbcb28
 
     @RequestMapping("/News")
     @ResponseBody

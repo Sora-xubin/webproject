@@ -1,6 +1,7 @@
 package com.demo.demo.Entity;
 
 import java.sql.Date;
+import java.sql.Timestamp;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -31,7 +32,7 @@ public class Project extends EntityBase{
     private String midreport;
 
     @Column
-    private Date midtime;
+    private Timestamp midtime;
 
     @Column
     private String finreport;
@@ -95,11 +96,11 @@ public class Project extends EntityBase{
         this.midreport = midreport;
     }
 
-    public Date getMidtime() {
+    public Timestamp getMidtime() {
         return midtime;
     }
 
-    public void setMidtime(Date midtime) {
+    public void setMidtime(Timestamp midtime) {
         this.midtime = midtime;
     }
 

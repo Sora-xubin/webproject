@@ -6,8 +6,9 @@ import com.demo.demo.Dao.ModuleDao;
 import com.demo.demo.Dao.RoleDao;
 import com.demo.demo.Dao.RoleModuleDao;
 import com.demo.demo.Entity.Role;
+import org.springframework.stereotype.Service;
 
-
+@Service
 public class SystemSettingService {
 	
 	@Autowired
@@ -33,6 +34,7 @@ public class SystemSettingService {
 	public void roleDelete(Integer id) {
 		roleDao.deleteById(id);
 	}
+
 	public void roleUpdate() {
 		
 	}
