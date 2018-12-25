@@ -1,9 +1,12 @@
 package com.demo.demo.Controller;
 
+import com.demo.demo.Entity.Project;
 import com.demo.demo.Service.DeclareService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
 /**
  * Created by XB on 2018/12/20.
@@ -22,11 +25,28 @@ public class DeclareController {
     }
 
     /**
+     * 跳转规则
+     */
+    @GetMapping(value = "/project_rule")
+    public String whachRule(Model model){
+        model.addAttribute("rule",declareService.findRule());
+        return "/middle/project_rule";
+    }
+
+    /**
+     * 跳转报名
+     */
+    @GetMapping(value = "/project_declare")
+    public String declareEntrance(){
+        return "/middle/project_declare";
+    }
+
+    /**
      * 创建项目
      */
     @GetMapping(value = "/submitproject")
-    public String subProject(){
-        return "/home";
+    public void subProject(@RequestBody Project project){
+        declareService.saveProject(project);
     }
 
     /**
@@ -51,6 +71,14 @@ public class DeclareController {
     @GetMapping(value = "/dechome/disexpert")
     public String distributionExpert(){
         return "";
+    }
+    /**
+     * 查看专家
+     */
+    @GetMapping(value = "/expert_list")
+    public String findExpert(Model model){
+        model.addAttribute("expert",declareService.findExpertList());
+        return "/middle/expert_list";
     }
 
     /**

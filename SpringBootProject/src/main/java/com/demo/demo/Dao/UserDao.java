@@ -16,6 +16,8 @@ public interface UserDao extends JpaRepository<User,Integer> {
 	public Boolean findAllByCode(Integer code);
 	
 	public Integer findIdByCode(Integer code);
+
+	public List<User> findAllByRolecode(Integer rolecode);
 	
 	@Modifying
 	@Query("update User u set u.name=:name,u.department=:department,"

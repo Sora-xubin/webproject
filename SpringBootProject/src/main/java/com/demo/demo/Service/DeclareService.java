@@ -85,9 +85,9 @@ public class DeclareService {
      * 查看专家列表
      * 专家角色编码2
      */
-//    public List<User> findExpertList(){
-//       return userDao.findAllByRolecode(2);
-//    }
+    public List<User> findExpertList(){
+        return userDao.findAllByRolecode(2);
+    }
     /**
      * 分配专家
      */
