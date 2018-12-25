@@ -14,7 +14,7 @@ public class SystemSettingController {
 	private SystemSettingService systemSettingService;
 	/**
 	 * 角色增加
-	 * @xtf
+	 * 
 	 */
 	
 	@RequestMapping(value="/system/role/save",method=RequestMethod.POST)
@@ -24,7 +24,7 @@ public class SystemSettingController {
 	
 	/**
 	 * 角色修改
-	 * @xtf
+	 * 
 	 */
 	
 	@RequestMapping(value="/system/role/update",method=RequestMethod.POST)
@@ -33,7 +33,7 @@ public class SystemSettingController {
 	}
 	/**
 	 * 角色查询
-	 * @xtf
+	 * 
 	 */
 	@RequestMapping(value="/system/role/search",method=RequestMethod.GET)
 	public String roleFind() {
@@ -41,7 +41,7 @@ public class SystemSettingController {
 	}
 	/**
 	 * 角色删除
-	 * @xtf
+	 * 
 	 */
 	@RequestMapping(value="/system/role/delete",method=RequestMethod.GET)
 	public String roleDelete() {
@@ -49,7 +49,7 @@ public class SystemSettingController {
 	}
 	/**
 	 * 菜单增加
-	 * @xtf
+	 * 
 	 */
 	@RequestMapping(value="/system/module/save",method=RequestMethod.GET)
 	public String moduleSave() {
@@ -57,7 +57,7 @@ public class SystemSettingController {
 	}
 	/**
 	 * 菜单删除
-	 * @xtf
+	 
 	 */
 	@RequestMapping(value="/system/module/delete",method=RequestMethod.GET)
 	public String moduleDelete() {
@@ -65,7 +65,7 @@ public class SystemSettingController {
 	}
 	/**
 	 * 菜单查询
-	 * @xtf
+	 * 
 	 */
 	@RequestMapping(value="/system/module/search",method=RequestMethod.GET)
 	public String moduleFind() {
@@ -73,7 +73,7 @@ public class SystemSettingController {
 	}
 	/**
 	 * 菜单修改
-	 * @xtf
+	 * 
 	 * 
 	 */
 	@RequestMapping(value="/system/module/update",method=RequestMethod.POST)
@@ -82,7 +82,7 @@ public class SystemSettingController {
 	}
 	/**
 	 * 权限分配
-	 * @xtf
+	 * 
 	 */
 	@RequestMapping(value="/system/role/distribute" ,method=RequestMethod.GET)
 	public String moduleDistribute() {

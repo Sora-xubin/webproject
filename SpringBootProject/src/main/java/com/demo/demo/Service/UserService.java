@@ -57,12 +57,13 @@ public class UserService {
     	userDao.deleteById(userDao.findIdByCode(code));
     	
     }
+    /**
+     * 根据新用户信息修改信息
+     * @param user
+     */
     @Transactional
     public void update(User user) {
     	
-    	userDao.UptateUser(user.getCode(), user.getName(),
-    			user.getDepartment(), user.getState(), 
-    			user.getRolecode(), user.getRemark());
     	
     	
     	

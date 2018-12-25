@@ -8,36 +8,42 @@ import javax.persistence.Table;
 @Table(name = "role")
 public class Role extends EntityBase{
     @Column
-    private int code;
+    private Integer code;
 
     @Column
     private String name;
     
+
     @Column
-    private String describe;
+    private String depict;
 
-    public int getCode() {
-        return code;
-    }
 
-    public void setCode(int code) {
-        this.code = code;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-	public String getDescribe() {
-		return describe;
+	public Integer getCode() {
+		return code;
 	}
 
-	public void setDescribe(String describe) {
-		this.describe = describe;
+	public void setCode(Integer code) {
+		this.code = code;
 	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getDepict() {
+		return depict;
+	}
+
+	public void setDepict(String depict) {
+		this.depict = depict;
+	}
+
+   
+   
+
     
 }

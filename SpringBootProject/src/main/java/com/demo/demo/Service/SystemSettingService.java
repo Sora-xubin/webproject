@@ -1,6 +1,7 @@
 package com.demo.demo.Service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.demo.demo.Dao.ModuleDao;
 import com.demo.demo.Dao.RoleDao;
@@ -13,29 +14,33 @@ public class SystemSettingService {
 	
 	@Autowired
 	private ModuleDao moduleDao;
+	
 	@Autowired
 	private RoleDao roleDao;
-	
+		
 	@Autowired 
 	private RoleModuleDao roleModuleDao;
 	
 	
 	/**
 	 * 角色增加
-	 * @xtf
+	 * 
 	 */
 	public void roleSave(Role role) {
 		roleDao.save(role);
 	}
 	/**
-	 * 角色id
-	 * @param id
+	 * 通过角色code删除角色
+	 * 
 	 */
-	public void roleDelete(Integer id) {
-		roleDao.deleteById(id);
+	public void roleDelete(Integer code) {
+		roleDao.deleteById(roleDao.findIdbyCode(code));;
 	}
-
-	public void roleUpdate() {
+	
+	/**
+	 * 角色修改
+	 */
+	public void roleUpdate(Role role) {
 		
 	}
 }

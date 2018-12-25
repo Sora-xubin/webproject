@@ -3,9 +3,11 @@ package com.demo.demo.Service;
 import com.demo.demo.Dao.CommentDao;
 import com.demo.demo.Dao.ProjectDao;
 import com.demo.demo.Dao.ProjectRuleDao;
+import com.demo.demo.Dao.UserDao;
 import com.demo.demo.Entity.Comment;
 import com.demo.demo.Entity.Project;
 import com.demo.demo.Entity.ProjectRule;
+import com.demo.demo.Entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,6 +25,8 @@ public class DeclareService {
     private ProjectDao projectDao;
     @Autowired
     private CommentDao commentDao;
+    @Autowired
+    private UserDao userDao;
     /**
      * 设置规则
      */
@@ -77,6 +81,13 @@ public class DeclareService {
         projectDao.save(project);
     }
 
+    /**
+     * 查看专家列表
+     * 专家角色编码2
+     */
+//    public List<User> findExpertList(){
+//       return userDao.findAllByRolecode(2);
+//    }
     /**
      * 分配专家
      */
