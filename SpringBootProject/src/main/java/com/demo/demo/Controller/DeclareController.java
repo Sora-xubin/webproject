@@ -1,12 +1,14 @@
 package com.demo.demo.Controller;
 
 import com.demo.demo.Entity.Project;
+import com.demo.demo.Entity.ProjectMember;
 import com.demo.demo.Service.DeclareService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Map;
 
 /**
  * Created by XB on 2018/12/20.
@@ -44,17 +46,30 @@ public class DeclareController {
     /**
      * 创建项目
      */
-    @GetMapping(value = "/submitproject")
-    public void subProject(@RequestBody Project project){
-        declareService.saveProject(project);
+    @RequestMapping(value = "/submitproject")
+    @ResponseBody
+    public String subProject(@RequestBody Map<String,Object> map){
+        Project project = new Project();
+        ProjectMember projectMember = new ProjectMember();
+        System.out.println((String)map.get("name"));
+        project.setName((String) map.get("name"));
+        project.setLevel((String) map.get("level"));
+        project.setPromise((String) map.get("promise"));
+        project.setState(0);
+        project.setCode(declareService.saveProject(project).getId());
+        projectMember.setProjectcode(project.getCode());
+        projectMember.setUsercode(Integer.parseInt((String) map.get("leader")));
+        declareService.saveMember(projectMember);
+        return "success!";
     }
 
     /**
-     * 项目列表
+     * 申报项目列表
      */
     @GetMapping(value = "/dechome")
-    public String findProject(){
-        return "";
+    public String findProject(Model model){
+        model.addAttribute("projectlist",declareService.findDeclareProject());
+        return "/middle/declare_project_list";
     }
 
     /**

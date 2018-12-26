@@ -4,30 +4,46 @@
     <meta charset="UTF-8">
     <!-- import CSS -->
     <link rel="stylesheet" th:href="@{../assets/layui/css/layui.css}">
+    <script type="text/javascript" src="../assets/layui/layui.js"></script>
     <title>项目周期管理系统</title>
 </head>
 <body>
 <div class="layui-form-item">
+    项目名称
     <input type="text" name="projectname" id="projectname" class="layui-input" placeholder="项目名称" />
 </div>
 <div class="layui-form-item">
+    项目级别
     <input type="text" name="projectlevel" id="projectlevel" class="layui-input" placeholder="项目级别" />
 </div>
 <div class="layui-form-item">
+    承诺
     <input type="text" name="projectpromise" id="projectpromise" class="layui-input" placeholder="承诺" />
 </div>
+<div class="layui-form-item">
+    负责人编号
+    <input type="text" name="projectleader" id="projectleader" class="layui-input" placeholder="负责人编号" />
+</div>
+<button id="declare" class="layui-btn layui-btn-radius layui-btn-normal" onclick="declare()">申报</button>
 
 
 <script >
+    layui.use('jquery',function () {
+
+    })
+
     function declare() {
+        var $  = layui.$;
         var project = {
             "name":$("#projectname").val(),
             "level":$("#projectlevel").val(),
-            "promise":$("#projectpromise").val()
+            "promise":$("#projectpromise").val(),
+            "leader":$("#projectleader").val()
         };
+        alert(project);
         $.ajax({
             type:'post',
-            url:'submitproject,',
+            url:'submitproject',
             contentType:'application/json;charset=UTF-8',
             data:JSON.stringify(project)
         })
