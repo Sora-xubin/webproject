@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <!-- import CSS -->
+    <link rel="stylesheet" th:href="@{../assets/layui/css/layui.css}">
+    <title>项目周期管理系统</title>
+</head>
+<body>
+<table class="layui-tab" style="...">
+    <thead>
+    <tr>
+        <th>专家编号</th>
+        <th>专家姓名</th>
+        <th>部门</th>
+        <th>状态</th>
+    </tr>
+    </thead>
+    <tbody>
+        <tr th:each="expert:${expert}">
+            <td th:text = "${expert.code}">code</td>
+            <td th:text = "${expert.name}">name</td>
+            <td th:text = "${expert.department}">department</td>
+            <td th:text = "${expert.state}">state</td>
+        </tr>
+    </tbody>
+</table>
+
+</body>
+</html>

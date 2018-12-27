@@ -21,6 +21,8 @@ public interface UserDao extends JpaRepository<User,Integer> {
 	
 	@Query("select o.id from User o where o.code=?1 ")
 	public Integer findIdByCode(Integer code);
+
+	public List<User> findAllByRolecode(Integer rolecode);
 	
 
 	public User findByCode(int code);

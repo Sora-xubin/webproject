@@ -1,13 +1,7 @@
 package com.demo.demo.Service;
 
-import com.demo.demo.Dao.CommentDao;
-import com.demo.demo.Dao.ProjectDao;
-import com.demo.demo.Dao.ProjectRuleDao;
-import com.demo.demo.Dao.UserDao;
-import com.demo.demo.Entity.Comment;
-import com.demo.demo.Entity.Project;
-import com.demo.demo.Entity.ProjectRule;
-import com.demo.demo.Entity.User;
+import com.demo.demo.Dao.*;
+import com.demo.demo.Entity.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -27,6 +21,8 @@ public class DeclareService {
     private CommentDao commentDao;
     @Autowired
     private UserDao userDao;
+    @Autowired
+    private ProjectMemberDao projectMemberDao;
     /**
      * 设置规则
      */
@@ -44,15 +40,23 @@ public class DeclareService {
     /**
      * 提交项目
      */
-    public void saveProject(Project project){
-        projectDao.save(project);
+    public Project saveProject(Project project){
+        return projectDao.save(project);
     }
 
     /**
-     * 查看所有项目
+     * 保存成员
      */
-    public List<Project> findAllProject(){
-        return projectDao.findAll();
+    public void saveMember(ProjectMember projectMember){
+        projectMemberDao.save(projectMember);
+    }
+
+    /**
+     * 查看所有申报项目
+     * 申报项目0
+     */
+    public List<Project> findDeclareProject(){
+        return projectDao.findAllByState(0);
     }
 
     /**
@@ -85,9 +89,9 @@ public class DeclareService {
      * 查看专家列表
      * 专家角色编码2
      */
-//    public List<User> findExpertList(){
-//       return userDao.findAllByRolecode(2);
-//    }
+    public List<User> findExpertList(){
+        return userDao.findAllByRolecode(2);
+    }
     /**
      * 分配专家
      */

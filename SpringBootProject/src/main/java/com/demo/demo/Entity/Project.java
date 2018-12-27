@@ -26,9 +26,6 @@ public class Project extends EntityBase{
     private int state;
 
     @Column
-    private String remark;
-
-    @Column
     private String midreport;
 
     @Column
@@ -45,14 +42,6 @@ public class Project extends EntityBase{
 
     @Column
     private String finexplain;
-
-    public String getRemark() {
-        return remark;
-    }
-
-    public void setRemark(String remark) {
-        this.remark = remark;
-    }
 
     public String getMidexplain() {
         return midexplain;
@@ -108,14 +97,6 @@ public class Project extends EntityBase{
 
     public void setState(int state) {
         this.state = state;
-    }
-
-    public String getComment() {
-        return remark;
-    }
-
-    public void setComment(String remark) {
-        this.remark = remark;
     }
 
     public String getMidreport() {
