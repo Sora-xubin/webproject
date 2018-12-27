@@ -7,7 +7,6 @@ spring:
   jpa:
     hibernate:
       ddl-auto: update
- 
     show-sql: false
 
   thymeleaf:
@@ -15,6 +14,3 @@ spring:
     mode: HTML5
     servlet:
       content-type: text/html; charset=utf-8
-server:
-
-  port: 8800

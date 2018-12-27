@@ -1,7 +1,10 @@
 package com.demo.demo.Service;
 
 import com.demo.demo.Dao.ProjectDao;
+import com.demo.demo.Dao.ProjectMemberDao;
+import com.demo.demo.Dao.UserDao;
 import com.demo.demo.Entity.Project;
+import com.demo.demo.Entity.ProjectMember;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -26,6 +29,12 @@ public class MidCheckService {
     @Autowired
     ProjectDao projectDao;
 
+    @Autowired
+    UserDao userDao;
+
+    @Autowired
+    ProjectMemberDao projectMemberDao;
+
     /**
      * 获取已经立项的项目列表
      */
@@ -33,25 +42,51 @@ public class MidCheckService {
         Pageable pageable = PageRequest.of(page-1, size);
         Page<Project> projectPage = projectDao.findAll(new Specification<Project>() {
             @Override
-            public Predicate toPredicate(Root<Project> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
+            public Predicate toPredicate(Root<Project> root, CriteriaQuery<?> criteriaQuery, CriteriaBuilder criteriaBuilder) {
                 return criteriaBuilder.equal(root.get("state"), 2);
             }
-        } ,pageable);
+        },pageable);
+        return projectPage;
+    }
+
+    /**
+     * 根据用户Code获取该用户的所有项目
+     * @param page
+     * @param size
+     * @return
+     */
+    public Page<Project> getUserProject(Integer page, Integer size) {
+        //根据userCode找到projectCode
+        Integer userCode = 1;
+        List<ProjectMember> projects = projectMemberDao.findByusercode(userCode);
+        //根据projectCode进行分页查询
+        Pageable pageable = PageRequest.of(page-1, size);
+        Page<Project> projectPage = projectDao.findAll(new Specification<Project>() {
+            //List保存查询条件
+            List<Predicate> list = new ArrayList<Predicate>();
+            @Override
+            public Predicate toPredicate(Root<Project> root, CriteriaQuery<?> criteriaQuery, CriteriaBuilder criteriaBuilder) {
+                for (int i = 0; i < projects.size(); i++) {
+                    list.add(criteriaBuilder.equal(root.get("code"), projects.get(i).getProjectcode()));
+                }
+                Predicate[] p = new Predicate[list.size()];
+                return criteriaBuilder.or(list.toArray(p));
+            }
+        }, pageable);
         return projectPage;
     }
 
     /**
      *
-     * @param id
+     * @param code
      * @param comment
      * @param date
      * @return
      * @throws ParseException
      */
-    public boolean updateProject(Integer id, String comment, String date) throws ParseException {
+    public boolean updateProject(Integer code, String comment, String date) throws ParseException {
         Project demo = new Project();
-        demo.setId(id);
-        demo.setState(3);
+        demo.setCode(code);
         demo.setComment(comment);
         demo.setMidtime(new Timestamp(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(date).getTime()));
         projectDao.save(demo);

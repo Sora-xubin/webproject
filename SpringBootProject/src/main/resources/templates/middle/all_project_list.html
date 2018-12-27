@@ -11,12 +11,14 @@
 <body>
   <table id="projects" class="layui-table" style="margin-top:0;">
     <thead>
+      <th style="display: none">项目编号</th>
       <th>项目名</th>
       <th>状态</th>
       <th>操作</th>
     </thead>
     <tbody>
       <tr th:each="project : ${datas}">
+        <td class="projectCode" style="display: none" th:text="${project.code}"></td>
         <td th:text="${project.name}"></td>
         <td th:switch="${project.state}">
           <span th:case="1">已立项</span>
@@ -34,6 +36,7 @@
 
   <div id="info" style="display:none;">
     <form action="" class="layui-form" style="margin-top: 10px;">
+      <div style="display: none" id="code"></div>
       <div class="layui-form-item">
         <div class="layui-inline">
           <label for="datepicker" class="layui-form-label">截止日期：</label>
@@ -48,6 +51,11 @@
           <textarea name="describe" id="describe" cols="40" rows="10" class="layui-textarea"></textarea>
         </div>
       </div>
+      <div class="layui-form-item">
+        <div class="layui-input-block">
+          <button id="subBtn" type="button" class="layui-btn layui-btn-normal">设置</button>
+        </div>
+      </div>
     </form>
   </div>
 </body>
@@ -58,7 +66,7 @@
   layui.use(['layer', 'jquery', 'laydate','laypage'], function () {
     var layer = layui.layer,
       $ = layui.$,
-      laydate = layui.laydate
+      laydate = layui.laydate,
       laypage = layui.laypage;
 
     laydate.render({
@@ -78,6 +86,8 @@
     })
 
     $('.setBtn').click(function setInfo() {
+      var code = $(this).parent().parent().children(".projectCode").text();
+      $('#code').text(code);
       layer.open({
         type: 1,
         title: "输入",
@@ -85,6 +95,27 @@
         area: '500px',
         content: $('#info'),
       });
+    });
+
+    $('#subBtn').click(function() {
+        $.post(
+            '',
+            {
+                code: $('#code').text(),
+                deadline: $('#datepicker').val()
+            },
+            function(data){
+                if(data.msg == 'OK') {
+                    //如果成功，提示并关闭layer层
+                    alert("提交成功！")
+                    layer.closeAll();
+                } else {
+                    alert("提交失败")
+                    //如果失败，仅提示
+                }
+            },
+            "json"
+        );
     });
   });
 </script>
