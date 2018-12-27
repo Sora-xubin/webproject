@@ -55,8 +55,8 @@ public class DeclareService {
      * 查看所有申报项目
      * 申报项目0
      */
-    public List<Project> findDeclareProject(){
-        return projectDao.findAllByState(0);
+    public List<Project> findProjectbyState(int state){
+        return projectDao.findAllByState(state);
     }
 
     /**
@@ -69,8 +69,8 @@ public class DeclareService {
     /**
      * 提交评语
      */
-    public void subComment(Project project,int expertCode,int mark,String comment){
-        Comment comment1 = commentDao.findByProjectcodeAndExpertcode(project.getCode(),expertCode);
+    public void subComment(int projectCode,int expertCode,int mark,String comment){
+        Comment comment1 = commentDao.findByProjectcodeAndExpertcode(projectCode,expertCode);
         comment1.setMark(mark);
         comment1.setComent(comment);
         commentDao.save(comment1);
@@ -79,9 +79,10 @@ public class DeclareService {
     /**
      * 初审
      * 1=初审通过
+     * -1=未通过
      */
-    public void firstExamine(Project project){
-        project.setState(1);
+    public void firstExamine(Project project,int state){
+        project.setState(state);
         projectDao.save(project);
     }
 
@@ -95,20 +96,33 @@ public class DeclareService {
     /**
      * 分配专家
      */
-    public void distributionExpert(Project project,int expertcode){
+    public void distributionExpert(int code,int expertcode){
         Comment comment = new Comment();
-        comment.setProjectcode(project.getCode());
+        comment.setProjectcode(code);
         comment.setExpertcode(expertcode);
         commentDao.save(comment);
     }
 
     /**
-     * 立项
-     * 2=立项评审中
+     * 2=专家审核中
      */
     public void setupProject(Project project){
         project.setState(2);
         projectDao.save(project);
+    }
+
+    /**
+     * 专家查看自己待审核项目列表
+     */
+    public List<Project> findExamineProject(int expertCode){
+        List<Comment> list = commentDao.findAllByExpertcode(expertCode);
+        List<Project> list1 = new ArrayList<>();
+        for (Comment comment : list){
+            if(null != comment.getComent()){
+                list1.add(projectDao.findByCode(comment.getProjectcode()));
+            }
+        }
+        return list1;
     }
 
     /**
@@ -132,8 +146,8 @@ public class DeclareService {
     /**
      * 查看所有评语
      */
-    public List<Comment> findComment(Project project){
-        return commentDao.findAllByProjectcode(project.getCode());
+    public List<Comment> findComment(int projectCode){
+        return commentDao.findAllByProjectcode(projectCode);
     }
 
     /**

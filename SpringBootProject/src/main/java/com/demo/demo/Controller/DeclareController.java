@@ -2,12 +2,14 @@ package com.demo.demo.Controller;
 
 import com.demo.demo.Entity.Project;
 import com.demo.demo.Entity.ProjectMember;
+import com.demo.demo.Entity.ProjectRule;
 import com.demo.demo.Service.DeclareService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -21,13 +23,17 @@ public class DeclareController {
     /**
      * 创建规则
      */
-    @GetMapping(value = "/dechome/setrule")
-    public String setRule(){
-        return "/dechome";
+    @RequestMapping(value = "/setrule")
+    @ResponseBody
+    public String setRule(@RequestBody Map<String,Object> map){
+        ProjectRule projectRule = new ProjectRule();
+        projectRule.setRule((String) map.get("rule"));
+        declareService.saveRule(projectRule);
+        return "success!";
     }
 
     /**
-     * 跳转规则
+     * 跳转规则页面
      */
     @GetMapping(value = "/project_rule")
     public String whachRule(Model model){
@@ -36,7 +42,7 @@ public class DeclareController {
     }
 
     /**
-     * 跳转报名
+     * 从规则跳转报名页面
      */
     @GetMapping(value = "/project_declare")
     public String declareEntrance(){
@@ -44,7 +50,7 @@ public class DeclareController {
     }
 
     /**
-     * 创建项目
+     * 创建申报项目
      */
     @RequestMapping(value = "/submitproject")
     @ResponseBody
@@ -64,31 +70,45 @@ public class DeclareController {
     }
 
     /**
-     * 申报项目列表
+     * 已申报项目列表
      */
-    @GetMapping(value = "/dechome")
+    @GetMapping(value = "/declare_project_list")
     public String findProject(Model model){
-        model.addAttribute("projectlist",declareService.findDeclareProject());
+        model.addAttribute("projectlist",declareService.findProjectbyState(0));
         return "/middle/declare_project_list";
     }
 
     /**
      * 初审
      */
-    @GetMapping(value = "/dechome/firexamine")
-    public String firstExamine(){
-        return "/dechome";
+    @RequestMapping(value = "/firexamine")
+    @ResponseBody
+    public String firstExamine(@RequestBody Map<String,Object>map){
+        Project project = new Project();
+        project = declareService.findProject((Integer) map.get("code"));
+        declareService.firstExamine(project,(Integer) map.get("state"));
+        return "success";
     }
 
     /**
-     * 分配专家
+     * 给项目分配专家
      */
-    @GetMapping(value = "/dechome/disexpert")
-    public String distributionExpert(){
-        return "";
+    @RequestMapping(value = "/disexpert")
+    @ResponseBody
+    public String distributionExpert(@RequestBody Map<String,Object> map){
+        List<Integer> list = (List<Integer>) map.get("expertlist");
+        int projectCode = (Integer) map.get("projectcode");
+        for(Integer e :list){
+            declareService.distributionExpert(projectCode,e);
+        }
+        Project project = new Project();
+        project = declareService.findProject(projectCode);
+        declareService.setupProject(project);
+        return "success!";
     }
+
     /**
-     * 查看专家
+     * 分配专家时，查看专家
      */
     @GetMapping(value = "/expert_list")
     public String findExpert(Model model){
@@ -97,34 +117,50 @@ public class DeclareController {
     }
 
     /**
-     * 立项评审
+     * 查看待审核项目
      */
-    @GetMapping(value = "/dechome/setupproject")
-    public String setupProject(){
-        return "/dechome";
+    @GetMapping(value = "/examineproject")
+    public String examineProject(Model model){
+        model.addAttribute("projects",declareService.findExamineProject(expertCode));//需要从前端返回登录专家的code
+        return "/middle/examine_project_list";
     }
 
     /**
-     * 评审
+     * 专家给项目评审
      */
-    @GetMapping(value = "subcomment")
-    public String subComment(){
-        return "/home";
+    @RequestMapping(value = "subcomment")
+    @ResponseBody
+    public String subComment(@RequestBody Map<String,Object> map){
+        declareService.subComment((Integer)map.get("projectcode"),(Integer)map.get("expertcode"),(Integer)map.get("mark"),(String)map.get("comment"));
+        declareService.setupProjectFinish(declareService.findProject((Integer)map.get("projectcode")));
+        return "success!";
+    }
+
+    /**
+     * 查看完成审核项目
+     */
+    @GetMapping(value = "/examinefinsh_project_list")
+    public String finishExamineProject(Model model){
+        model.addAttribute("projects",declareService.findProjectbyState(4));
+        return "examineEnd_project_list";
     }
 
     /**
      * 查看评审
      */
-    @GetMapping(value = "/dechome/findcomment")
-    public String findComment(){
-        return "";
+    @GetMapping(value = "/project_comment_list")
+    public String findComment(Model model){
+        model.addAttribute("comment",declareService.findComment(projectCode));//需要前端传回项目code
+        return "middle/project_comment_list";
     }
 
     /**
      * 确定立项
      */
-    @GetMapping(value = "/dechome/findcomment/setdeclare")
-    public String setDeclare(){
-        return "/dechome";
+    @RequestMapping(value = "/setProject")
+    @ResponseBody
+    public String setDeclare(@RequestBody Map<String,Object>map){
+        declareService.setDeclare(declareService.findProject((Integer)map.get("projectcode")),(Integer)map.get("state"));
+        return "success!";
     }
 }

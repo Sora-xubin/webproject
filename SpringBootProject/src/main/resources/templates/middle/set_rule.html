@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!--设置项目规则-->
+    <meta charset="UTF-8">
+    <!-- import CSS -->
+    <link rel="stylesheet" th:href="@{../assets/layui/css/layui.css}">
+    <script type="text/javascript" src="../assets/layui/layui.js"></script>
+    <title>项目周期管理系统</title>
+</head>
+<body>
+<div class="layui-form-item">
+    项目规则
+    <input type="text" name="projectrule" id="projectrule" class="layui-input" placeholder="项目规则" />
+</div>
+<button id="declare" class="layui-btn layui-btn-radius layui-btn-normal" onclick="declare()">提交</button>
+<script >
+    layui.use('jquery',function () {
+
+    })
+
+    function declare() {
+        var $  = layui.$;
+        var rule = {
+            "rule":$("#projectrule").val()
+        };
+        alert(rule);
+        $.ajax({
+            type:'post',
+            url:'submitproject',
+            contentType:'application/json;charset=UTF-8',
+            data:JSON.stringify(project)
+        })
+    }
+</script>
+</body>
+</html>
