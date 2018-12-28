@@ -138,13 +138,32 @@ public class DeclareService {
      */
     public Page<Project> findExamineProject(Integer page, Integer size,int expertCode){
         List<Comment> list = commentDao.findAllByExpertcode(expertCode);
-        List<Project> list1 = new ArrayList<>();
-        for (Comment comment : list){
-            if(null != comment.getComent()){
-                list1.add(projectDao.findByCode(comment.getProjectcode()));
+        Pageable pageable = PageRequest.of(page-1, size);
+
+        Page<Project> projectPage = projectDao.findAll(new Specification<Project>() {
+            //List保存查询条件
+            List<Predicate> list1 = new ArrayList<Predicate>();
+            @Override
+            public Predicate toPredicate(Root<Project> root, CriteriaQuery<?> criteriaQuery, CriteriaBuilder criteriaBuilder) {
+                for (Comment comment : list) {
+                    list1.add(criteriaBuilder.equal(root.get("code"), comment.getProjectcode()));
+                }
+                Predicate[] p = new Predicate[list1.size()];
+                return criteriaBuilder.or(list1.toArray(p));
             }
-        }
-        return list1;
+        }, pageable);
+        return projectPage;
+
+
+
+
+
+//        for (Comment comment : list){
+//            if(null != comment.getComent()){
+//                list1.add(projectDao.findByCode(comment.getProjectcode()));
+//            }
+//        }
+//        return list1;
     }
 
     /**
