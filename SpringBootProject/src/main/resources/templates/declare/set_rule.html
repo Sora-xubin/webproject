@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!--设置项目规则-->
+  <meta charset="UTF-8">
+  <!-- import CSS -->
+  <link rel="stylesheet" th:href="@{../assets/layui/css/layui.css}">
+  <!-- import JavaScript -->
+  <script th:src="@{../assets/layui/layui.all.js}"></script>
+  <title>项目周期管理系统</title>
+</head>
+<body>
+<form class="layui-form">
+  <div class="layui-form-item">
+    <label for="projectrule" class="layui-form-label">项目规则</label>
+    <div class="layui-input-block">
+      <textarea name="projectrule" id="projectrule" required lay-verify="required" placeholder="项目规则" class="layui-textarea"></textarea>
+    </div>
+  </div>
+  <div class="layui-form-item">
+    <button type="button" id="declare" class="layui-btn layui-btn-radius layui-btn-normal">提交</button>
+  </div>
+</form>
+<script >
+    layui.use(['form','jquery','element'], function () {
+        var form = layui.form,
+            $ = layui.$,
+            element = layui.element;
+
+        $('#declare').click(function(){
+            $.ajax({
+                type:'post',
+                url:'setrule',
+                contentType:'application/json;charset=UTF-8',
+                data: JSON.stringify({"rule":$("#projectrule").val()}),
+                success: function (data) {
+                    if(data == 'success!') {
+                        alert("提交成功");
+                    }
+                }
+            })
+        })
+    });
+</script>
+</body>
+</html>

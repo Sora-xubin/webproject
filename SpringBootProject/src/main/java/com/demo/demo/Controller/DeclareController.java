@@ -38,7 +38,7 @@ public class DeclareController {
     @GetMapping(value = "/project_rule")
     public String whachRule(Model model){
         model.addAttribute("rule",declareService.findRule());
-        return "/middle/project_rule";
+        return "/declare/project_rule";
     }
 
     /**
@@ -46,7 +46,7 @@ public class DeclareController {
      */
     @GetMapping(value = "/project_declare")
     public String declareEntrance(){
-        return "/middle/project_declare";
+        return "/declare/project_declare";
     }
 
     /**
@@ -77,7 +77,7 @@ public class DeclareController {
                               @RequestParam(value = "page", defaultValue = "1") Integer page,
                               @RequestParam(value = "limit", defaultValue = "5") Integer size){
         model.addAttribute("datas", declareService.findDeclareProject(page, size,0));
-        return "/middle/declare_project_list";
+        return "/declare/declare_project_list";
     }
 
     /**
@@ -116,8 +116,8 @@ public class DeclareController {
     public String findExpert(Model model,
                              @RequestParam(value = "page", defaultValue = "1") Integer page,
                              @RequestParam(value = "limit", defaultValue = "5") Integer size){
-        model.addAttribute("expert",declareService.findExpertList(page, size,0));
-        return "/middle/expert_list";
+        model.addAttribute("experts",declareService.findExpertList(page, size,0));
+        return "declare/expert_list";
     }
 
     /**
@@ -128,8 +128,8 @@ public class DeclareController {
                                  @RequestParam(value = "expertCode")int expertCode,
                                  @RequestParam(value = "page", defaultValue = "1") Integer page,
                                  @RequestParam(value = "limit", defaultValue = "5") Integer size){
-        model.addAttribute("projects",declareService.findExamineProject(page,size,expertCode));//需要从前端返回登录专家的code
-        return "/middle/examine_project_list";
+        model.addAttribute("expert",declareService.findExamineProject(page,size,expertCode));//需要从前端返回登录专家的code
+        return "/declare/examine_project_list";
     }
 
     /**
@@ -163,7 +163,7 @@ public class DeclareController {
                               @RequestParam(value = "page", defaultValue = "1") Integer page,
                               @RequestParam(value = "limit", defaultValue = "5") Integer size){
         model.addAttribute("comment",declareService.findComment(page,size,projectCode));//需要前端传回项目code
-        return "middle/project_comment_list";
+        return "declare/project_comment_list";
     }
 
     /**

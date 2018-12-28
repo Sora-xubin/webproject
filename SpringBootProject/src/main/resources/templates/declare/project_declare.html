@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!--项目申报界面-->
+    <meta charset="UTF-8">
+    <!-- import CSS -->
+    <link rel="stylesheet" th:href="@{../assets/layui/css/layui.css}">
+    <!-- import JavaScript -->
+    <script th:src="@{../assets/layui/layui.all.js}"></script>
+    <title>项目周期管理系统</title>
+</head>
+<body>
+<form class="layui-form">
+    <div class="layui-form-item">
+        <label for="projectname" class="layui-form-label">项目名称</label>
+        <div class="layui-input-block">
+            <input type="text" name="projectname" id="projectname" class="layui-input" placeholder="项目名称" />
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label for="projectlevel" class="layui-form-label">项目级别</label>
+        <div class="layui-input-block">
+            <input type="text" name="projectlevel" id="projectlevel" class="layui-input" placeholder="项目级别" />
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label for="projectpromise" class="layui-form-label">承诺</label>
+        <div class="layui-input-block">
+            <input type="text" name="projectpromise" id="projectpromise" class="layui-input" placeholder="承诺" />
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label for="projectleader" class="layui-form-label">负责人编号</label>
+        <div class="layui-input-block">
+            <input type="text" name="projectleader" id="projectleader" class="layui-input" placeholder="负责人编号" />
+        </div>
+    </div>
+    <button type="button" id="declare" class="layui-btn layui-btn-radius layui-btn-normal">申报</button>
+</form>
+
+<script >
+    layui.use(['element','jquery','form'],function () {
+        var element = layui.element,
+                $ = layui.$,
+                form = layui.form;
+
+        $('#declare').click(function(){
+            var project = {
+                "name":$("#projectname").val(),
+                "level":$("#projectlevel").val(),
+                "promise":$("#projectpromise").val(),
+                "leader":$("#projectleader").val()
+            };
+            $.ajax({
+                type:'post',
+                url:'submitproject',
+                contentType:'application/json;charset=UTF-8',
+                data:JSON.stringify(project),
+                success: function (data) {
+                    if(data == 'success!') {
+                        alert('申报成功');
+                    }
+                }
+            })
+        })
+    });
+</script>
+</body>
+</html>

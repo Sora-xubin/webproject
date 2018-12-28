@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <!--已申报项目列表-->
+  <meta charset="UTF-8">
+  <!-- import CSS -->
+  <link rel="stylesheet" th:href="@{../assets/layui/css/layui.css}">
+  <!-- import JavaScript -->
+  <script th:src="@{../assets/layui/layui.all.js}"></script>
+  <title>项目周期管理系统</title>
+</head>
+
+<body>
+  <table class="layui-table" style="margin-top:0;">
+    <thead>
+      <tr>
+        <th>项目编号</th>
+        <th>项目名称</th>
+        <th>相关操作</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr th:each="project:${datas}">
+        <td name="code" class="code" th:text="${project.code}">code</td>
+        <td th:text="${project.name}">name</td>
+        <td>
+          <button class="layui-btn layui-btn-radius layui-btn-normal pass">初审通过</button>
+          <button class="layui-btn layui-btn-radius layui-btn-normal nopass">初审未通过</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <div id="page" th:attr="data-total=${datas.totalElements},data-curr=${datas.number+1}"></div>
+
+  <script>
+    layui.use(['jquery','table','element','laypage'], function () {
+        var $ = layui.$,
+            table = layui.table,
+            laypage = layui.laypage;
+
+        laypage.render({
+            elem: 'page',
+            curr: $('#page').attr('data-curr'),
+            count: $('#page').attr('data-total'),
+            limit: 5,
+            jump: function(obj, first){
+                if(!first) {
+                    window.location.href = "/declare_project_list=" + obj.curr + "&limit=5"
+                }
+            }
+        })
+
+        $('.pass').click(function(){
+            var project = {
+                "code": $(this).parent().parent().children('.code').text(),
+                "state": "1"
+            };
+            $.ajax({
+                type: 'post',
+                url: 'firexamine',
+                contentType: 'application/json;charset=UTF-8',
+                data: JSON.stringify(project),
+                success: alert("success")
+            })
+        });
+
+        $('.nopass').click(function(){
+            var project = {
+                "code": $(this).parent().parent().children('.code').text(),
+                "state": "-1"
+            };
+            $.ajax({
+                type: 'post',
+                url: 'firexamine',
+                contentType: 'application/json;charset=UTF-8',
+                data: JSON.stringify(project),
+                success: alert("success")
+            })
+        });
+    });
+
+
+  </script>
+</body>
+
+</html>
