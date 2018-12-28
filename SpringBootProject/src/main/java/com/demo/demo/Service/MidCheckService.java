@@ -77,7 +77,7 @@ public class MidCheckService {
     }
 
     /**
-     *
+     * 设置中期材料说明
      * @param code
      * @param comment
      * @param date
@@ -93,6 +93,23 @@ public class MidCheckService {
         return true;
     }
 
+    /**
+     * 保存上传的中期材料地址
+     * @param projectCode
+     */
+    public void saveMidAddress(int projectCode,String fileAddress){
+        Project project = projectDao.findByCode(projectCode);
+        project.setMidreport(fileAddress);
+        projectDao.save(project);
+    }
+    /**
+     * 查找上传的中期材料地址
+     * @param projectCode
+     */
+    public String findMidAddress(int projectCode){
+        Project project = projectDao.findByCode(projectCode);
+        return project.getMidreport();
+    }
     public Project findProjectByCode(int projectCode) {
         return projectDao.findByCode(projectCode);
     }

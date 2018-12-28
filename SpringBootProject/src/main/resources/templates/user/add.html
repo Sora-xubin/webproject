@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<!-- import CSS -->
+<link rel="stylesheet" th:href="@{../assets/layui/css/layui.css}">
+<title>项目周期管理系统</title>
+</head>
+<body>
+	<form class="layui-form" th:action="@{/useradd}" th:object="${user}" id="addform" style="margin-top:50px;" method="post">
+		
+		<div class="layui-form-item">
+			<label class="layui-form-label">编号</label>
+			<div class="layui-input-inline">
+				<input type="text" name="code" required lay-verify="required"
+					placeholder="请输入编号" class="layui-input" >
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label">姓名</label>
+			<div class="layui-input-inline">
+				<input type="text" name="name" required lay-verify="required"
+					placeholder="请输入姓名" class="layui-input" >
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label">密码</label>
+			<div class="layui-input-inline">
+				<input type="password" name="password" required
+					lay-verify="required" placeholder="请输入密码" class="layui-input" >
+			</div>
+			<div class="layui-form-mid layui-word-aux">6-12位</div>
+		</div>
+		
+		<div class="layui-form-item">
+			<label class="layui-form-label">所属部门</label>
+			<div class="layui-input-inline">
+				<input type="text" name="department" required lay-verify="required"
+					placeholder="请输入部门" class="layui-input" >
+			</div>
+		</div>
+		<div class="layui-form-item">
+        <div class="layui-inline">
+          <label for="datepicker" class="layui-form-label">创建时间</label>
+          <div class="layui-input-inline">
+            <input type="text" class="layui-input" required lay-verify="required" id="datepicker" placeholder="yyyy-MM-dd" name="createtime" >
+          </div>
+        </div>
+      </div>
+		
+		<div class="layui-form-item layui-form-text">
+			<label class="layui-form-label">备注</label>
+			<div class="layui-input-block">
+				<textarea name="remark" placeholder="请输入内容" class="layui-textarea" ></textarea>
+			</div>
+		</div>
+		
+		<div class="layui-form-item" style="margin-left:110px;">
+			
+				<button  class="layui-btn" lay-submit lay-filter="add">确定</button>
+				<button type="reset" class="layui-btn layui-btn-primary">重置</button>
+			
+		</div>
+
+	</form>
+
+</body>
+<!-- import JavaScript -->
+<script th:src="@{../assets/layui/layui.all.js}"></script>
+ <script>
+	//add
+	layui.use(['form','laydate'],function() {
+		var form = layui.form
+		,laydate = layui.laydate;
+	
+		//监听提交以ajax方式提交表单内容
+		form.render();
+		 laydate.render({
+			 elem:'#datepicker' //指定元素
+			  });
+		/* form.on('submit(add)',function(data){	
+			 $.ajax({
+
+				type:"post",
+				dataType : "json",
+				url :'[[ @{/useradd} ]]',
+				contentType : 'application/json;charset=UTF-8',
+                processData: false,
+				data : JSON.stringify(data.field),
+				success : function(data) {
+					layer.msg("成功");
+					
+				},
+				error : function(data) {
+
+					layer.msg("新增失败");
+				}
+				
+			}); 
+			
+			return false;
+
+		});
+		 */
+	})
+</script> 
+
+</html>

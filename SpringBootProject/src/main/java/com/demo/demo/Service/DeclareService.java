@@ -3,8 +3,16 @@ package com.demo.demo.Service;
 import com.demo.demo.Dao.*;
 import com.demo.demo.Entity.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -52,11 +60,18 @@ public class DeclareService {
     }
 
     /**
-     * 查看所有申报项目
+     * 查看所有申报项目列表
      * 申报项目0
      */
-    public List<Project> findProjectbyState(int state){
-        return projectDao.findAllByState(state);
+    public Page<Project> findDeclareProject(Integer page, Integer size,Integer state){
+        Pageable pageable = PageRequest.of(page-1, size);
+        Page<Project> projectPage = projectDao.findAll(new Specification<Project>() {
+            @Override
+            public Predicate toPredicate(Root<Project> root, CriteriaQuery<?> criteriaQuery, CriteriaBuilder criteriaBuilder) {
+                return criteriaBuilder.equal(root.get("state"), state);
+            }
+        },pageable);
+        return projectPage;
     }
 
     /**
@@ -90,8 +105,15 @@ public class DeclareService {
      * 查看专家列表
      * 专家角色编码2
      */
-    public List<User> findExpertList(){
-        return userDao.findAllByRolecode(2);
+    public Page<User> findExpertList(Integer page, Integer size,Integer rolecode){
+        Pageable pageable = PageRequest.of(page-1, size);
+        Page<User> usersPage = userDao.findAll(new Specification<User>() {
+            @Override
+            public Predicate toPredicate(Root<User> root, CriteriaQuery<?> criteriaQuery, CriteriaBuilder criteriaBuilder) {
+                return criteriaBuilder.equal(root.get("rolecode"), rolecode);
+            }
+        },pageable);
+        return usersPage;
     }
     /**
      * 分配专家
@@ -114,15 +136,34 @@ public class DeclareService {
     /**
      * 专家查看自己待审核项目列表
      */
-    public List<Project> findExamineProject(int expertCode){
+    public Page<Project> findExamineProject(Integer page, Integer size,int expertCode){
         List<Comment> list = commentDao.findAllByExpertcode(expertCode);
-        List<Project> list1 = new ArrayList<>();
-        for (Comment comment : list){
-            if(null != comment.getComent()){
-                list1.add(projectDao.findByCode(comment.getProjectcode()));
+        Pageable pageable = PageRequest.of(page-1, size);
+
+        Page<Project> projectPage = projectDao.findAll(new Specification<Project>() {
+            //List保存查询条件
+            List<Predicate> list1 = new ArrayList<Predicate>();
+            @Override
+            public Predicate toPredicate(Root<Project> root, CriteriaQuery<?> criteriaQuery, CriteriaBuilder criteriaBuilder) {
+                for (Comment comment : list) {
+                    list1.add(criteriaBuilder.equal(root.get("code"), comment.getProjectcode()));
+                }
+                Predicate[] p = new Predicate[list1.size()];
+                return criteriaBuilder.or(list1.toArray(p));
             }
-        }
-        return list1;
+        }, pageable);
+        return projectPage;
+
+
+
+
+
+//        for (Comment comment : list){
+//            if(null != comment.getComent()){
+//                list1.add(projectDao.findByCode(comment.getProjectcode()));
+//            }
+//        }
+//        return list1;
     }
 
     /**
@@ -146,8 +187,15 @@ public class DeclareService {
     /**
      * 查看所有评语
      */
-    public List<Comment> findComment(int projectCode){
-        return commentDao.findAllByProjectcode(projectCode);
+    public Page<Comment> findComment(Integer page, Integer size,int projectCode){
+        Pageable pageable = PageRequest.of(page-1, size);
+        Page<Comment> commentsPage = commentDao.findAll(new Specification<Comment>() {
+            @Override
+            public Predicate toPredicate(Root<Comment> root, CriteriaQuery<?> criteriaQuery, CriteriaBuilder criteriaBuilder) {
+                return criteriaBuilder.equal(root.get("projectcode"),projectCode );
+            }
+        },pageable);
+        return commentsPage;
     }
 
     /**

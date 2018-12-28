@@ -11,9 +11,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-/**
- * Created by XB on 2018/12/18.
- */
+
 @Service
 public class UserService {
     @Autowired
@@ -36,32 +34,32 @@ public class UserService {
     /**
      * 新增用户
      */
-    @Transactional
-    public String save(User user) {
-    	if(userDao.findAllByCode(user.getCode())) {
+    
+    public void save(User user) {
+    	
     	userDao.save(user);
     	
-    	return "新增成功";
-    	}
-    	else 
-    	return "账户已存在，新增失败";
+    
     }
     
-    /**
+    
+    public User findById(Integer id){
+    	return userDao.findById(id).get();
+    }    /**
      * 根据用户code删除用户
      * @param code
      */
-    @Transactional
-    public void delete(Integer code) {
-    	
-    	userDao.deleteById(userDao.findIdByCode(code));
-    	
+
+    public void delete(Integer[] ids) {
+    	for(Integer id:ids) {
+    	userDao.deleteById(id);
+    	}
     }
     /**
      * 根据新用户信息修改信息
      * @param user
      */
-    @Transactional
+
     public void update(User user) {
     	
     	

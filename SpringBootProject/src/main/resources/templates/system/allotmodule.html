@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+ <title>项目周期管理系统</title>
+  <!-- import CSS -->
+  <link rel="stylesheet" th:href="@{../assets/layui/css/layui.css}">
+</head>
+<body>
+	<form class="layui-form" action="" style="margin-top:50px;" >
+		<div class="layui-form-item">
+			<label class="layui-form-label">权限分配</label>
+			<div>
+				<input type="checkbox" title="申报管理" lay-skin="primary">
+				<input type="checkbox" title="中期检查" lay-skin="primary">
+				<input type="checkbox" title="结题验收" lay-skin="primary">
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<button class="layui-btn" style="margin-left:100px;">确认</button>
+		</div>
+	</form>
+</body>
+<!-- import JavaScript -->
+<script th:src="@{../assets/layui/layui.all.js}"></script>
+<script>
+	 layui.use('form',function(){
+		 var form = layui.form;
+	 });
+	 
+</script>
+</html>
