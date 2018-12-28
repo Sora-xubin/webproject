@@ -41,16 +41,6 @@ public class UserController {
         return "hello world";
     }
 
-
-    @RequestMapping("/test")
-    @ResponseBody
-    public List<Comment> comments(){
-        Project project = new Project();
-        project.setCode(1);
-
-        return declareService.findComment(project);
-    }
-    
 	/**
 	 * 打开新增的页面
 	 * 

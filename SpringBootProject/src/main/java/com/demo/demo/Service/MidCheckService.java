@@ -87,7 +87,7 @@ public class MidCheckService {
     public boolean updateProject(Integer code, String comment, String date) throws ParseException {
         Project demo = new Project();
         demo.setCode(code);
-        demo.setComment(comment);
+        demo.setMidexplain(comment);
         demo.setMidtime(new Timestamp(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(date).getTime()));
         projectDao.save(demo);
         return true;

@@ -20,12 +20,17 @@ public class DeclareController {
     @Autowired
     DeclareService declareService;
 
+    @GetMapping(value = "/set_rule")
+    public String set_rule(){
+        return "/declare/set_rule";
+    }
+
     /**
      * 创建规则
      */
     @RequestMapping(value = "/setrule")
     @ResponseBody
-    public String setRule(@RequestBody Map<String,Object> map){
+    public String setRule(@RequestBody Map<String, Object> map){
         ProjectRule projectRule = new ProjectRule();
         projectRule.setRule((String) map.get("rule"));
         declareService.saveRule(projectRule);
@@ -38,7 +43,7 @@ public class DeclareController {
     @GetMapping(value = "/project_rule")
     public String whachRule(Model model){
         model.addAttribute("rule",declareService.findRule());
-        return "/middle/project_rule";
+        return "/declare/project_rule";
     }
 
     /**
@@ -46,7 +51,7 @@ public class DeclareController {
      */
     @GetMapping(value = "/project_declare")
     public String declareEntrance(){
-        return "/middle/project_declare";
+        return "/declare/project_declare";
     }
 
     /**
@@ -75,7 +80,7 @@ public class DeclareController {
     @GetMapping(value = "/declare_project_list")
     public String findProject(Model model){
         model.addAttribute("projectlist",declareService.findProjectbyState(0));
-        return "/middle/declare_project_list";
+        return "/declare/declare_project_list";
     }
 
     /**
@@ -83,7 +88,7 @@ public class DeclareController {
      */
     @RequestMapping(value = "/firexamine")
     @ResponseBody
-    public String firstExamine(@RequestBody Map<String,Object>map){
+    public String firstExamine(@RequestBody Map<String,Object> map){
         Project project = new Project();
         project = declareService.findProject((Integer) map.get("code"));
         declareService.firstExamine(project,(Integer) map.get("state"));
@@ -113,16 +118,17 @@ public class DeclareController {
     @GetMapping(value = "/expert_list")
     public String findExpert(Model model){
         model.addAttribute("expert",declareService.findExpertList());
-        return "/middle/expert_list";
+        return "/declare/expert_list";
     }
 
     /**
      * 查看待审核项目
      */
     @GetMapping(value = "/examineproject")
-    public String examineProject(Model model){
+    public String examineProject(Model model,
+                                 @RequestParam(value = "expertCode") Integer expertCode){
         model.addAttribute("projects",declareService.findExamineProject(expertCode));//需要从前端返回登录专家的code
-        return "/middle/examine_project_list";
+        return "/declare/examine_project_list";
     }
 
     /**
@@ -149,9 +155,10 @@ public class DeclareController {
      * 查看评审
      */
     @GetMapping(value = "/project_comment_list")
-    public String findComment(Model model){
+    public String findComment(Model model,
+                              @RequestParam(value = "prjectCode") Integer projectCode) {
         model.addAttribute("comment",declareService.findComment(projectCode));//需要前端传回项目code
-        return "middle/project_comment_list";
+        return "declare/project_comment_list";
     }
 
     /**
