@@ -22,16 +22,17 @@
   </thead>
   <tbody>
   <tr th:each="expert:${experts}">
-    <td th:text = "${expert.code}">code</td>
+    <td class="ex-code" th:text = "${expert.code}">code</td>
     <td th:text = "${expert.name}">name</td>
     <td th:text = "${expert.department}">department</td>
     <td th:text = "${expert.state}">state</td>
     <td>
-      <button type="button">分配项目</button>
+      <button class="layui-btn layui-btn-radius layui-btn-normal layui-btn-sm fenpei" type="button">分配项目</button>
     </td>
   </tr>
   </tbody>
 </table>
+<div id="project-code" style="display: none;" th:text="${projectCode}"></div>
 <div id="page" th:attr="data-total=${experts.totalElements},data-curr=${experts.number+1}"></div>
 <script>
     layui.use(['element','laypage'],function () {
@@ -49,6 +50,22 @@
                     window.location.href = "/declare_project_list=" + obj.curr + "&limit=5"
                 }
             }
+        })
+        
+        $('.fenpei').click(function () {
+            var data = {
+                'projectcode': $('#project-code').text(),
+                'expertcode': $(this).parent().parent().children('.ex-code').text()
+            }
+            $.ajax({
+                type: 'post',
+                url: 'disexpert',
+                contentType: 'application/json;charset=UTF-8',
+                data: JSON.stringify(data),
+                success: function(){
+                    alert("success");
+                }
+            })
         })
     });
 </script>

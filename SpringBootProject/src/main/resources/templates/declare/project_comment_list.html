@@ -1,11 +1,50 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <!--项目所有评语界面-->
+    <!--专家列表-->
     <meta charset="UTF-8">
-    <title>Title</title>
+    <!-- import CSS -->
+    <link rel="stylesheet" th:href="@{../assets/layui/css/layui.css}">
+    <!-- import JavaScript -->
+    <script th:src="@{../assets/layui/layui.all.js}"></script>
+    <title>项目周期管理系统</title>
 </head>
 <body>
+<table class="layui-table">
+    <thead>
+    <tr>
+        <th>内容</th>
+        <th>评分</th>
+        <th>专家编号</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="expert:${comment}">
+        <td class="ex-code" th:text = "${expert.coment}">code</td>
+        <td th:text = "${expert.mark}">department</td>
+        <td th:text="${expert.expertcode}"></td>
+    </tr>
+    </tbody>
+</table>
+<div id="page" th:attr="data-total=${comment.totalElements},data-curr=${comment.number+1}"></div>
+<script>
+    layui.use(['element','laypage'],function () {
+        var $ = layui.$,
+                table = layui.table,
+                laypage = layui.laypage;
 
+        laypage.render({
+            elem: 'page',
+            curr: $('#page').attr('data-curr'),
+            count: $('#page').attr('data-total'),
+            limit: 5,
+            jump: function(obj, first){
+                if(!first) {
+                    window.location.href = "/declare_project_list=" + obj.curr + "&limit=5"
+                }
+            }
+        })
+    });
+</script>
 </body>
 </html>

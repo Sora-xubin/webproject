@@ -85,10 +85,10 @@ public class DeclareController {
      */
     @RequestMapping(value = "/firexamine")
     @ResponseBody
-    public String firstExamine(@RequestBody Map<String,Object>map){
+    public String firstExamine(@RequestBody Map<String,Integer>map){
         Project project = new Project();
-        project = declareService.findProject((Integer) map.get("code"));
-        declareService.firstExamine(project,(Integer) map.get("state"));
+        project = declareService.findProject( map.get("code"));
+        declareService.firstExamine(project, map.get("state"));
         return "success";
     }
 
@@ -97,12 +97,10 @@ public class DeclareController {
      */
     @RequestMapping(value = "/disexpert")
     @ResponseBody
-    public String distributionExpert(@RequestBody Map<String,Object> map){
-        List<Integer> list = (List<Integer>) map.get("expertlist");
-        int projectCode = (Integer) map.get("projectcode");
-        for(Integer e :list){
-            declareService.distributionExpert(projectCode,e);
-        }
+    public String distributionExpert(@RequestBody Map<String,String> map){
+        Integer expertCode = Integer.parseInt(map.get("expertcode")) ;
+        Integer projectCode = Integer.parseInt(map.get("projectcode"));
+        declareService.distributionExpert(projectCode,expertCode);
         Project project = new Project();
         project = declareService.findProject(projectCode);
         declareService.setupProject(project);
@@ -114,8 +112,10 @@ public class DeclareController {
      */
     @GetMapping(value = "/expert_list")
     public String findExpert(Model model,
+                             @RequestParam(value = "projectcode")String projectCode,
                              @RequestParam(value = "page", defaultValue = "1") Integer page,
                              @RequestParam(value = "limit", defaultValue = "5") Integer size){
+        model.addAttribute("projectCode",Integer.parseInt(projectCode));
         model.addAttribute("experts",declareService.findExpertList(page, size,0));
         return "declare/expert_list";
     }
@@ -151,7 +151,7 @@ public class DeclareController {
                                        @RequestParam(value = "page", defaultValue = "1") Integer page,
                                        @RequestParam(value = "limit", defaultValue = "5") Integer size){
         model.addAttribute("projects", declareService.findDeclareProject(page, size,4));
-        return "examineEnd_project_list";
+        return "declare/examineEnd_project_list";
     }
 
     /**

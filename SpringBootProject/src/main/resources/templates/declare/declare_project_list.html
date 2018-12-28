@@ -52,8 +52,9 @@
         })
 
         $('.pass').click(function(){
+            var code = $(this).parent().parent().children('.code').text();
             var project = {
-                "code": $(this).parent().parent().children('.code').text(),
+                "code": code,
                 "state": "1"
             };
             $.ajax({
@@ -61,7 +62,10 @@
                 url: 'firexamine',
                 contentType: 'application/json;charset=UTF-8',
                 data: JSON.stringify(project),
-                success: alert("success")
+                success: function(){
+                    alert("success");
+                    window.location.href = '/expert_list?projectcode=' + code;
+                }
             })
         });
 

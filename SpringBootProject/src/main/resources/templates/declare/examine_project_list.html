@@ -5,20 +5,21 @@
   <meta charset="UTF-8">
   <!-- import CSS -->
   <link rel="stylesheet" th:href="@{../assets/layui/css/layui.css}">
+  <!-- import JavaScript -->
+  <script th:src="@{../assets/layui/layui.all.js}"></script>
   <title>项目周期管理系统</title>
 </head>
 
 <body>
   <table id="projects" class="layui-table" style="margin-top:0;">
     <thead>
-      <th style="display: none">项目编号</th>
+      <th>项目编号</th>
       <th>项目名</th>
       <th>状态</th>
-      <th>操作</th>
     </thead>
     <tbody>
-      <tr th:each="project : ${datas}">
-        <td class="projectCode" style="display: none" th:text="${project.code}"></td>
+      <tr th:each="project : ${expert}">
+        <td class="projectCode" th:text="${project.code}"></td>
         <td th:text="${project.name}"></td>
         <td th:switch="${project.state}">
           <span th:case="1">已立项</span>
@@ -26,17 +27,12 @@
           <span th:case="3">中期检查待整改</span>
           <span th:case="4">最终检查</span>
         </td>
-        <td>
-          <button type="button" class="layui-btn layui-btn-radius layui-btn-normal layui-btn-sm setBtn">上传文件</button>
-        </td>
       </tr>
     </tbody>
   </table>
-  <div id="page" th:attr="data-total=${datas.totalElements},data-curr=${datas.number+1}"></div>
+  <div id="page" th:attr="data-total=${expert.totalElements},data-curr=${expert.number+1}"></div>
 </body>
 
-<!-- import JavaScript -->
-<script th:src="@{../assets/layui/layui.all.js}"></script>
 <script>
   layui.use(['layer', 'jquery', 'laydate', 'laypage'], function () {
     var layer = layui.layer,
