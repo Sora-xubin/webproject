@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<!-- import CSS -->
+<link rel="stylesheet" th:href="@{../assets/layui/css/layui.css}">
+<title>项目周期管理系统</title>
+</head>
+<body>
+	<form class="layui-form" th:action="@{/useradd}" th:object="${user}" id="addform" style="margin-top:50px;" method="post">
+		<input type="hidden" name="id" th:value="*{id}"  id="userid"/>
+		<div class="layui-form-item">
+			<label class="layui-form-label" >编号</label>
+			<div class="layui-input-inline">
+				<input type="text" name="code" required lay-verify="required"
+					placeholder="请输入编号" class="layui-input" th:value="*{code}" th:readonly="${readonly}" >
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label">姓名</label>
+			<div class="layui-input-inline">
+				<input type="text" name="name" required lay-verify="required"
+					placeholder="请输入姓名" class="layui-input"th:value="*{name}" >
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label">密码</label>
+			<div class="layui-input-inline">
+				<input type="text" name="password" required
+					lay-verify="required" placeholder="请输入密码" class="layui-input" th:value="*{password}">
+			</div>
+			<div class="layui-form-mid layui-word-aux">6-12位</div>
+		</div>
+		
+		<div class="layui-form-item">
+			<label class="layui-form-label">所属部门</label>
+			<div class="layui-input-inline">
+				<input type="text" name="department" required lay-verify="required"
+					placeholder="请输入部门" class="layui-input" th:value="*{department}">
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label">状态</label>
+			<div class="layui-input-inline">
+				<input type="text" name="state" required lay-verify="required"
+					placeholder="请输入状态" class="layui-input" th:value="*{state}">
+			</div>
+		</div>
+		<div class="layui-form-item">
+        <div class="layui-inline">
+          <label for="datepicker" class="layui-form-label">创建时间</label>
+          <div class="layui-input-inline">
+            <input type="text" class="layui-input" required lay-verify="required" id="datepicker" placeholder="yyyy-MM-dd" name="createtime" th:value="*{createtime}" th:readonly="${readonly}">
+          </div>
+        </div>
+      </div>
+      <div class="layui-form-item">
+        <div class="layui-inline">
+          <label for="datepicker" class="layui-form-label">更新时间</label>
+          <div class="layui-input-inline">
+            <input type="text" class="layui-input" required lay-verify="required" id="datepicker2" placeholder="yyyy-MM-dd" name="updatetime" th:value="*{updatetime}">
+          </div>
+        </div>
+      </div>
+      
+      
+		
+		<div class="layui-form-item layui-form-text">
+			<label class="layui-form-label">备注</label>
+			<div class="layui-input-inline">
+				<input type="text" name="remark" placeholder="请输入内容" class="layui-textarea" th:value="*{remark}" >
+			</div>
+		</div>
+		
+		<div class="layui-form-item" style="margin-left:100px">
+			<botton class="layui-btn layui-btn-radius layui-btn-primary" id="roleset">角色分配</botton>
+			<button  class="layui-btn" lay-submit lay-filter="add">确定修改</button>
+		</div>
+		
+		
+		
+	</form>
+	<div id="roleallot" style="display:none">
+		<form action="" style="margin-top:10px" class="layui-form">
+			<div class="layui-form-item"  >
+			<label class="layui-form-label">请选择分配的角色：</label>
+		<div class="layui-input-inline" th:each="data : ${datas.content}" th:object="${data}" >
+			<input  type="radio" name="rolecode"  th:title="*{name}" th:value="*{code}" id="role" lay-filter="test">
+				
+		</div>
+		</div>
+		<div class="layui-form-item " style="margin-left:120px;">
+			<div class="layui-input-inline">
+				<botton id="setrole" lay-submit class="layui-btn" lay-filter="setrole">分配</botton>
+				
+			</div>
+		</div>
+		</form>
+		</div>
+</body>
+<!-- import JavaScript -->
+<script th:src="@{../assets/layui/layui.all.js}"></script>
+ <script>
+	//add
+	layui.use(['form','laydate','jquery','layer'],function() {
+		var form = layui.form
+		,laydate = layui.laydate,
+		 $ = layui.$,
+		 layer = layui.layer;
+	
+		var userid = $('#userid').val();
+		form.render();
+		 laydate.render({
+			 elem:'#datepicker2' //指定元素
+			 
+			  });
+		$('#roleset').click(function setRole(){
+			layer.open({
+				type:1,
+				title:"角色分配",	
+				area:'600px',
+				content:$('#roleallot'),
+			})
+			
+		})
+		 
+		 form.on('submit(setrole)', function(data){
+			  $.ajax({
+				  url:"http://localhost:8800/user/distribute/"+userid,
+				  data:data.field,
+				  success:function(){
+					  layer.msg("成功");
+				  },
+				  error:function(){
+					  layer.msg("失败");
+				  }
+				  
+				  
+			  })
+			  
+			});  
+		/* form.on('submit(add)',function(data){	
+			 $.ajax({
+
+				type:"post",
+				dataType : "json",
+				url :'[[ @{/useradd} ]]',
+				contentType : 'application/json;charset=UTF-8',
+                processData: false,
+				data : JSON.stringify(data.field),
+				success : function(data) {
+					layer.msg("成功");
+					
+				},
+				error : function(data) {
+
+					layer.msg("新增失败");
+				}
+				
+			}); 
+			
+			return false;
+
+		});
+		 */
+	})
+</script> 
+
+</html>

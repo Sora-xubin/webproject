@@ -1,5 +1,7 @@
 package com.demo.demo.Entity;
 
+import java.sql.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
@@ -13,10 +15,33 @@ public class Role extends EntityBase{
     @Column
     private String name;
     
-
     @Column
     private String depict;
+    
+    @Column
+    private String createtime;
+    
+    @Column 
+    private String updatetime;
 
+
+	
+
+	public String getCreatetime() {
+		return createtime;
+	}
+
+	public void setCreatetime(String createtime) {
+		this.createtime = createtime;
+	}
+
+	public String getUpdatetime() {
+		return updatetime;
+	}
+
+	public void setUpdatetime(String updatetime) {
+		this.updatetime = updatetime;
+	}
 
 	public Integer getCode() {
 		return code;

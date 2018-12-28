@@ -1,5 +1,9 @@
 package com.demo.demo.Entity;
 
+
+
+import java.sql.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
@@ -42,14 +46,14 @@ public class User extends EntityBase{
      * 用户创建时间
      */
     @Column
-    private String creattime;
+    private String createtime;
 
     /**
      * user_updatetime
      * 用户信息更新时间
      */
     @Column
-    private String updatetime;
+    private String  updatetime;
 
     /**
      * user_state
@@ -71,78 +75,91 @@ public class User extends EntityBase{
      */
     @Column
     private String remark;
+    public User() {};
 
-    public User(){}
-    public void setCode(int code) {
-        this.code = code;
-    }
+	public User(Integer code, String password, String name, String department, String createtime, String remark) {
+		super();
+		this.code = code;
+		this.password = password;
+		this.name = name;
+		this.department = department;
+		this.createtime = createtime;
+		this.remark = remark;
+	}
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
+	public Integer getCode() {
+		return code;
+	}
 
-    public void setName(String name) {
-        this.name = name;
-    }
+	public void setCode(Integer code) {
+		this.code = code;
+	}
 
-    public void setDepartment(String department) {
-        this.department = department;
-    }
+	public String getPassword() {
+		return password;
+	}
 
-    public void setCreattime(String creattime) {
-        this.creattime = creattime;
-    }
+	public void setPassword(String password) {
+		this.password = password;
+	}
 
-    public void setUpdatetime(String updatetime) {
-        this.updatetime = updatetime;
-    }
+	public String getName() {
+		return name;
+	}
 
-    public void setState(String state) {
-        this.state = state;
-    }
+	public void setName(String name) {
+		this.name = name;
+	}
 
-    public void setRolecode(int rolecode) {
-        this.rolecode = rolecode;
-    }
+	public String getDepartment() {
+		return department;
+	}
 
-    public void setRemark(String remark) {
-        this.remark = remark;
-    }
+	public void setDepartment(String department) {
+		this.department = department;
+	}
 
-    public int getCode() {
+	
 
-        return code;
-    }
+	public String getCreatetime() {
+		return createtime;
+	}
 
-    public String getPassword() {
-        return password;
-    }
+	public void setCreatetime(String createtime) {
+		this.createtime = createtime;
+	}
 
-    public String getName() {
-        return name;
-    }
+	public String getUpdatetime() {
+		return updatetime;
+	}
 
-    public String getDepartment() {
-        return department;
-    }
+	public void setUpdatetime(String updatetime) {
+		this.updatetime = updatetime;
+	}
 
-    public String getCreattime() {
-        return creattime;
-    }
+	public String getState() {
+		return state;
+	}
 
-    public String getUpdatetime() {
-        return updatetime;
-    }
+	public void setState(String state) {
+		this.state = state;
+	}
 
-    public String getState() {
-        return state;
-    }
+	public Integer getRolecode() {
+		return rolecode;
+	}
 
-    public int getRolecode() {
-        return rolecode;
-    }
+	public void setRolecode(Integer rolecode) {
+		this.rolecode = rolecode;
+	}
 
-    public String getRemark() {
-        return remark;
-    }
+	public String getRemark() {
+		return remark;
+	}
+
+	public void setRemark(String remark) {
+		this.remark = remark;
+	}
+
+   
 }

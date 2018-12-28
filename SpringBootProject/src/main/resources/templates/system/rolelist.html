@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+ <title>项目周期管理系统</title>
+  <!-- import CSS -->
+  <link rel="stylesheet" th:href="@{../assets/layui/css/layui.css}">
+   <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}"/>  
+       <script th:src="@{/js/jquery-3.3.1.min.js}"></script>
+    <script th:src="@{/js/bootstrap.min.js}"></script>
+</head>
+<body>
+	<form method="post"  id="dataForm">
+	<table id="rolelist" class="layui-table"> 
+		 <thead>	
+		<tr>
+			<th lay-data="{field:'id',fixed:'left'}">选择</th>
+			<th lay-data="{field:'code',fixed:'left'}">角色编号</th>
+			<th lay-data="{field:'name'	}">角色名称</th>
+			<th lay-data="{field:'createtime'}">创建时间</th>
+			<th lay-data="{field:'updatetime'}">更新时间</th>
+			<th lay-data="{field:'depict'}">角色描述</th>
+			<th lay-data="{field:'set'}">操作</th>
+		</tr>
+		</thead>
+		<tbody th:remove="all-but-first">
+			<tr th:each="data : ${datas.content}" th:object="${data}">
+				<td scope="row"><input type="checkbox" name="ids" th:value="*{id}"/></td>
+				<td th:text="*{code}"></td>
+				<td th:text="*{name}"></td>
+				<td th:text="*{createtime}"></td>
+				<td th:text="*{updatetime}"></td>
+				<td th:text="*{depict}"></td>
+				<td>
+					<botton>
+    						<a th:href="@{/roleupdate/} + *{id}" class="layui-btn layui-btn-radius layui-btn-primary" >修改</a>
+    				</botton>
+				</td>	
+		</tbody>
+	</table>
+	<div class="row" style="margin-left:100px;margin-top:100px">
+		<div style="margin-right:50px" >
+			<botton type="botton" id="delete"  class="layui-btn layui-btn-radius layui-btn-primary" >删除</botton>		
+		</div>
+	<div class="col-lg-1" th:replace="~{common/page::page('/role/list')}" >
+            <ul class="pagination"  >
+                <li class="page-item">
+                    <a class="page-link" href="#" aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                    </a>
+                </li>
+                <li class="page-item"><a class="page-link" href="#">1</a></li>
+                <li class="page-item"><a class="page-link" href="#">2</a></li>
+                <li class="page-item"><a class="page-link" href="#">3</a></li>
+                <li class="page-item"><a class="page-link" href="#">3</a></li>
+                <li class="page-item">
+                    <a class="page-link" href="#" aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+        </div>
+	</form>
+</body>
+<!-- import JavaScript -->
+<script th:src="@{../assets/layui/layui.all.js}"></script>
+
+<script>
+layui.use(['table','jquery'],function(){
+	var table = layui.table,
+	$ = layui.$;
+	$('#delete').click(function(){
+		$("#dataForm").attr("action","[[@{/role/delete/}]][[${datas.number}]]");
+
+		$("#dataForm").submit();
+	})
+	
+});
+</script>
+</html>

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>项目周期管理系统</title>
+<link rel="stylesheet" th:href="@{../assets/layui/css/layui.css}">
+</head>
+<body>
+	<form class="layui-form" action="" style="margin-top:50px;"  >
+		
+		<div class="layui-form-item"  >
+			<label class="layui-form-label">请选择分配的角色：</label>
+		<div class="layui-input-inline" th:each="data : ${datas.content}" th:object="${data}" >
+			<input  type="radio" name="rolecode"  th:title="*{name}" th:value="*{code}" id="role" lay-filter="test">
+				
+		</div>
+		</div>
+		<div class="layui-form-item " style="margin-left:120px;">
+			<div class="layui-input-inline">
+				<botton id="setrole" lay-submit class="layui-btn" lay-filter="setrole">确认</botton>
+			</div>
+		</div>
+	</form>
+
+</body>
+<!-- import JavaScript -->
+<script th:src="@{../assets/layui/layui.all.js}"></script>
+<script>
+	layui.use(['form','jquery'],function(){
+		var form = layui.form,
+		$ = layui.$;
+		form.on('submit(setrole)', function(data){
+			  $.ajax({
+				  url:'http://localhost:8800/user/distribute',
+				  data:data.field,
+				  success:function(){
+					  layer.msg("成功");
+				  },
+				  error:function(){
+					  layer.msg("失败");
+				  }
+				  
+				  
+			  })
+			  
+			});  
+		/* $('#setrole').click(function(data){
+			var a={
+				id :$('#role').val()};
+			$.ajax({
+				type:'get',		
+				 url:'distribute',
+				data:a,
+				success:function(data){
+					layer.msg("分配成功");
+				},
+				error:function(data){
+					layer.msg("分配失败");
+				} */
+				
+		
+		})
+		
+	
+</script>
+</html>

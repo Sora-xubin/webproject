@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>项目周期管理系统</title>
+<!-- import CSS -->
+<link rel="stylesheet" th:href="@{../assets/layui/css/layui.css}">
+</head>
+<body>
+	<form class="layui-form" th:action="@{/roleadd}" th:object=${role} lay-filter="addrole" style="margin-top:50px;margin-left:100px" method="post">
+		<input type="hidden" name="id" th:value="*{id}"/>
+		<div class="layui-form-item">
+			<label class="layui-form-label">编号</label>
+			<div class="layui-input-inline">
+				<input type="text" name="code" required lay-verify="required"
+					placeholder="请输入编号" class="layui-input" th:value="*{code}">
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label">角色名称</label>
+			<div class="layui-input-inline">
+				<input type="text" name="name" required lay-verify="required"
+					placeholder="请输入角色名称" class="layui-input" th:value="*{name}">
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label">创建时间</label>
+			<div class="layui-input-inline">
+				<input id="datepicker" th:readonly="${readonly}" type="text" name="createtime" required lay-verify="required" placeholder="yyyy-mm-dd" class="layui-input" th:value=*{createtime}>
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label">更新时间</label>
+			<div class="layui-input-inline">
+				<input id="datepicker2" type="text" name="updatetime" required lay-verify="required" placeholder="yyyy-mm-dd" class="layui-input" th:value=*{updatetime}>
+			</div>
+		</div>
+		
+		
+		<div class="layui-form-item layui-form-text">
+			<label class="layui-form-label">角色描述</label>
+			<div class="layui-input-inline">
+				<input name="depict" placeholder="请输入内容" class="layui-textarea" th:value="*{depict}">
+			</div>
+		</div>
+		<div class="layui-form-item" style="margin-left:110px;">
+			<div class="layui-input-inline">
+				<button id="save" class="layui-btn" lay-submit lay-filter="roleadd">提交</button>
+				
+				</div> 
+		</div>
+	</form>
+</body>
+<!-- import JavaScript -->
+<script th:src="@{../assets/layui/layui.all.js}"></script>
+<script>
+	 layui.use(['form','laydate'],function(){
+		 var form = layui.form,
+		 laydate = layui.laydate;
+		 form.render();
+		 laydate.render({
+			 elem:'#datepicker2' //指定元素
+			 
+			  });
+	 });
+	 
+</script>
+</html>

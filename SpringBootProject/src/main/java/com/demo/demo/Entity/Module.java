@@ -9,6 +9,8 @@ import javax.persistence.Table;
 public class Module extends EntityBase{
 	
 	@Column
+	private String code;
+	@Column
 	private String modulename;
 	
 	@Column
@@ -28,6 +30,14 @@ public class Module extends EntityBase{
 
 	public void setUrl(String url) {
 		this.url = url;
+	}
+
+	public String getCode() {
+		return code;
+	}
+
+	public void setCode(String code) {
+		this.code = code;
 	}
 	
 	
