@@ -1,6 +1,7 @@
 package com.demo.demo.Controller;
 
 import com.demo.demo.Entity.Project;
+import com.demo.demo.Service.FileUtil;
 import com.demo.demo.Service.MidCheckService;
 import javassist.bytecode.analysis.MultiType;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,10 +17,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import javax.servlet.http.HttpServletResponse;
+import java.io.*;
 import java.text.ParseException;
 import java.util.HashMap;
 import java.util.List;
@@ -88,12 +87,20 @@ public class MidCheckController {
      */
     @ResponseBody
     @RequestMapping(value = "/upload_material", method = RequestMethod.POST, consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public String uploadMaterial(@RequestParam("file")MultipartFile file) throws IOException {
-        File convertFile = new File("/upload" + file.getOriginalFilename());
-        convertFile.createNewFile();
-        FileOutputStream fout = new FileOutputStream(convertFile);
-        fout.write(file.getBytes());
-        fout.close();
+    public String uploadMaterial(@RequestParam("file")MultipartFile file,@RequestParam("projectCode")int projectcode) {
+//        File convertFile = new File("/upload" + file.getOriginalFilename());
+//        convertFile.createNewFile();
+//        FileOutputStream fout = new FileOutputStream(convertFile);
+//        fout.write(file.getBytes());
+//        fout.close();
+        String pathName = "/upload";
+        String fileName = file.getOriginalFilename();
+        try{
+            FileUtil.uploadFile(file.getBytes(),pathName,fileName);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        midCheckService.saveMidAddress(projectcode,pathName+fileName);
         return "File is upload successfully";
     }
 
@@ -102,20 +109,57 @@ public class MidCheckController {
      */
     @ResponseBody
     @RequestMapping(value = "/download_material", method = RequestMethod.GET)
-    public ResponseEntity<Object> downloadMaterial(int projectCode) throws IOException {
-        Project project = midCheckService.findProjectByCode(projectCode);
-        String filename = project.getMidreport();
-        File file = new File(filename);
-        InputStreamResource resource = new InputStreamResource(new FileInputStream(file));
-        HttpHeaders headers = new HttpHeaders();
+//    public ResponseEntity<Object> downloadMaterial(int projectCode) throws IOException {
+//        Project project = midCheckService.findProjectByCode(projectCode);
+//        String filename = project.getMidreport();
+//        File file = new File(filename);
+//        InputStreamResource resource = new InputStreamResource(new FileInputStream(file));
+//        HttpHeaders headers = new HttpHeaders();
+//
+//        headers.add("Content-Disposition", filename);
+//        headers.add("Cache-Control", "no-cache, no-store, must-revalidate");
+//        headers.add("Pragma", "no-cache");
+//        headers.add("Expires", "0");
+//
+//        ResponseEntity<Object> responseEntity = ResponseEntity.ok().headers(headers).contentLength(file.length()).contentType(MediaType.parseMediaType("application/txt")).body(resource);
+//        return responseEntity;
+//    }
+    public String downloadMaterial(@RequestParam("projectCode")int projectCode,HttpServletResponse response){
+        String filePath = midCheckService.findMidAddress(projectCode);
+        File file = new File(filePath);
+        if(file.exists()){
+            response.setContentType("application/force-download");
+            String fileName = "MidCheckReport";
+            String suffixName = fileName.substring(fileName.lastIndexOf("."));
+            fileName = fileName+ suffixName;
+            response.setHeader("Content-Disposition", "attachment;fileName=" + fileName);
 
-        headers.add("Content-Disposition", filename);
-        headers.add("Cache-Control", "no-cache, no-store, must-revalidate");
-        headers.add("Pragma", "no-cache");
-        headers.add("Expires", "0");
+            byte[] buffer = new byte[1024];
+            FileInputStream fis = null; //文件输入流
+            BufferedInputStream bis = null;
 
-        ResponseEntity<Object> responseEntity = ResponseEntity.ok().headers(headers).contentLength(file.length()).contentType(MediaType.parseMediaType("application/txt")).body(resource);
-        return responseEntity;
+            OutputStream os = null; //输出流
+            try {
+                os = response.getOutputStream();
+                fis = new FileInputStream(file);
+                bis = new BufferedInputStream(fis);
+                int i = bis.read(buffer);
+                while(i != -1){
+                    os.write(buffer);
+                    i = bis.read(buffer);
+                }
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            try {
+                bis.close();
+                fis.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return "success!";
     }
 
     /**

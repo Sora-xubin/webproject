@@ -73,8 +73,10 @@ public class DeclareController {
      * 已申报项目列表
      */
     @GetMapping(value = "/declare_project_list")
-    public String findProject(Model model){
-        model.addAttribute("projectlist",declareService.findProjectbyState(0));
+    public String findProject(Model model,
+                              @RequestParam(value = "page", defaultValue = "1") Integer page,
+                              @RequestParam(value = "limit", defaultValue = "5") Integer size){
+        model.addAttribute("datas", declareService.findDeclareProject(page, size,0));
         return "/middle/declare_project_list";
     }
 
@@ -111,17 +113,22 @@ public class DeclareController {
      * 分配专家时，查看专家
      */
     @GetMapping(value = "/expert_list")
-    public String findExpert(Model model){
-        model.addAttribute("expert",declareService.findExpertList());
+    public String findExpert(Model model,
+                             @RequestParam(value = "page", defaultValue = "1") Integer page,
+                             @RequestParam(value = "limit", defaultValue = "5") Integer size){
+        model.addAttribute("expert",declareService.findExpertList(page, size,0));
         return "/middle/expert_list";
     }
 
     /**
-     * 查看待审核项目
+     * 专家查看需要自己待审核项目
      */
     @GetMapping(value = "/examineproject")
-    public String examineProject(Model model){
-        model.addAttribute("projects",declareService.findExamineProject(expertCode));//需要从前端返回登录专家的code
+    public String examineProject(Model model,
+                                 @RequestParam(value = "expertCode")int expertCode,
+                                 @RequestParam(value = "page", defaultValue = "1") Integer page,
+                                 @RequestParam(value = "limit", defaultValue = "5") Integer size){
+        model.addAttribute("projects",declareService.findExamineProject(page,size,expertCode));//需要从前端返回登录专家的code
         return "/middle/examine_project_list";
     }
 
@@ -140,8 +147,10 @@ public class DeclareController {
      * 查看完成审核项目
      */
     @GetMapping(value = "/examinefinsh_project_list")
-    public String finishExamineProject(Model model){
-        model.addAttribute("projects",declareService.findProjectbyState(4));
+    public String finishExamineProject(Model model,
+                                       @RequestParam(value = "page", defaultValue = "1") Integer page,
+                                       @RequestParam(value = "limit", defaultValue = "5") Integer size){
+        model.addAttribute("projects", declareService.findDeclareProject(page, size,4));
         return "examineEnd_project_list";
     }
 
@@ -149,8 +158,11 @@ public class DeclareController {
      * 查看评审
      */
     @GetMapping(value = "/project_comment_list")
-    public String findComment(Model model){
-        model.addAttribute("comment",declareService.findComment(projectCode));//需要前端传回项目code
+    public String findComment(Model model,
+                              @RequestParam(value = "projectCode")Integer projectCode,
+                              @RequestParam(value = "page", defaultValue = "1") Integer page,
+                              @RequestParam(value = "limit", defaultValue = "5") Integer size){
+        model.addAttribute("comment",declareService.findComment(page,size,projectCode));//需要前端传回项目code
         return "middle/project_comment_list";
     }
 

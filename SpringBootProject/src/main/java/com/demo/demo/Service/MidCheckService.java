@@ -77,7 +77,7 @@ public class MidCheckService {
     }
 
     /**
-     *
+     * 设置中期材料说明
      * @param code
      * @param comment
      * @param date
@@ -87,12 +87,29 @@ public class MidCheckService {
     public boolean updateProject(Integer code, String comment, String date) throws ParseException {
         Project demo = new Project();
         demo.setCode(code);
-        demo.setComment(comment);
+        demo.setMidexplain(comment);
         demo.setMidtime(new Timestamp(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(date).getTime()));
         projectDao.save(demo);
         return true;
     }
 
+    /**
+     * 保存上传的中期材料地址
+     * @param projectCode
+     */
+    public void saveMidAddress(int projectCode,String fileAddress){
+        Project project = projectDao.findByCode(projectCode);
+        project.setMidreport(fileAddress);
+        projectDao.save(project);
+    }
+    /**
+     * 查找上传的中期材料地址
+     * @param projectCode
+     */
+    public String findMidAddress(int projectCode){
+        Project project = projectDao.findByCode(projectCode);
+        return project.getMidreport();
+    }
     public Project findProjectByCode(int projectCode) {
         return projectDao.findByCode(projectCode);
     }
