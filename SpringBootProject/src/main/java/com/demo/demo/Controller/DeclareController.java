@@ -98,11 +98,9 @@ public class DeclareController {
     @RequestMapping(value = "/disexpert")
     @ResponseBody
     public String distributionExpert(@RequestBody Map<String,Object> map){
-        List<Integer> list = (List<Integer>) map.get("expertlist");
-        int projectCode = (Integer) map.get("projectcode");
-        for(Integer e :list){
-            declareService.distributionExpert(projectCode,e);
-        }
+        Integer exptercode = Integer.parseInt((String)map.get("expertcode"));
+        Integer projectCode =Integer.parseInt((String)map.get("projectcode"));
+        declareService.distributionExpert(projectCode,exptercode);
         Project project = new Project();
         project = declareService.findProject(projectCode);
         declareService.setupProject(project);

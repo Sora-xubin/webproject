@@ -164,11 +164,11 @@ public class MidCheckController {
 
     /**
      * 中期检查：审核
-     * @param id
+     * @param
      */
     @ResponseBody
     @RequestMapping(value = "/set_status", method = RequestMethod.POST)
-    public String setStatus(int id) {
+    public String setStatus(@RequestBody Map<String,Object> map) {
         boolean isPassed = true;
         if (isPassed) {
             return "S";
