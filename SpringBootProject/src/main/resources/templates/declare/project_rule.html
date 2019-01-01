@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <!--项目规则-->
+  <meta charset="UTF-8">
+  <!-- import CSS -->
+  <link rel="stylesheet" th:href="@{../assets/layui/css/layui.css}">
+  <!-- import JavaScript -->
+  <script th:src="@{../assets/layui/layui.all.js}"></script>
+  <title>项目周期管理系统</title>
+</head>
+
+<body>
+  <table class="layui-table">
+    <thead>
+      <tr>
+        <th>项目规则</th>
+        <th>报名入口</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr th:each="projectrule : ${rule}">
+        <td th:text="${rule.rule}">test</td>
+        <td>
+          <a href="/project_declare">点击报名</a>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <script>
+    layui.use('element',function () {
+      var element = layui.element;
+    });
+  </script>
+
+</body>
+
+</html>

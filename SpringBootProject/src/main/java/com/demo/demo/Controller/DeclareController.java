@@ -38,7 +38,7 @@ public class DeclareController {
     @GetMapping(value = "/project_rule")
     public String whachRule(Model model){
         model.addAttribute("rule",declareService.findRule());
-        return "/middle/project_rule";
+        return "/declare/project_rule";
     }
 
     /**
@@ -46,7 +46,7 @@ public class DeclareController {
      */
     @GetMapping(value = "/project_declare")
     public String declareEntrance(){
-        return "/middle/project_declare";
+        return "/declare/project_declare";
     }
 
     /**
@@ -77,7 +77,7 @@ public class DeclareController {
                               @RequestParam(value = "page", defaultValue = "1") Integer page,
                               @RequestParam(value = "limit", defaultValue = "5") Integer size){
         model.addAttribute("datas", declareService.findDeclareProject(page, size,0));
-        return "/middle/declare_project_list";
+        return "/declare/declare_project_list";
     }
 
     /**
@@ -85,10 +85,10 @@ public class DeclareController {
      */
     @RequestMapping(value = "/firexamine")
     @ResponseBody
-    public String firstExamine(@RequestBody Map<String,Object>map){
+    public String firstExamine(@RequestBody Map<String,Integer>map){
         Project project = new Project();
-        project = declareService.findProject((Integer) map.get("code"));
-        declareService.firstExamine(project,(Integer) map.get("state"));
+        project = declareService.findProject( map.get("code"));
+        declareService.firstExamine(project, map.get("state"));
         return "success";
     }
 
@@ -97,10 +97,10 @@ public class DeclareController {
      */
     @RequestMapping(value = "/disexpert")
     @ResponseBody
-    public String distributionExpert(@RequestBody Map<String,Object> map){
-        Integer exptercode = Integer.parseInt((String)map.get("expertcode"));
-        Integer projectCode =Integer.parseInt((String)map.get("projectcode"));
-        declareService.distributionExpert(projectCode,exptercode);
+    public String distributionExpert(@RequestBody Map<String,String> map){
+        Integer expertCode = Integer.parseInt(map.get("expertcode")) ;
+        Integer projectCode = Integer.parseInt(map.get("projectcode"));
+        declareService.distributionExpert(projectCode,expertCode);
         Project project = new Project();
         project = declareService.findProject(projectCode);
         declareService.setupProject(project);
@@ -112,10 +112,12 @@ public class DeclareController {
      */
     @GetMapping(value = "/expert_list")
     public String findExpert(Model model,
+                             @RequestParam(value = "projectcode")String projectCode,
                              @RequestParam(value = "page", defaultValue = "1") Integer page,
                              @RequestParam(value = "limit", defaultValue = "5") Integer size){
-        model.addAttribute("expert",declareService.findExpertList(page, size,0));
-        return "/middle/expert_list";
+        model.addAttribute("projectCode",Integer.parseInt(projectCode));
+        model.addAttribute("experts",declareService.findExpertList(page, size,0));
+        return "declare/expert_list";
     }
 
     /**
@@ -126,8 +128,8 @@ public class DeclareController {
                                  @RequestParam(value = "expertCode")int expertCode,
                                  @RequestParam(value = "page", defaultValue = "1") Integer page,
                                  @RequestParam(value = "limit", defaultValue = "5") Integer size){
-        model.addAttribute("projects",declareService.findExamineProject(page,size,expertCode));//需要从前端返回登录专家的code
-        return "/middle/examine_project_list";
+        model.addAttribute("expert",declareService.findExamineProject(page,size,expertCode));//需要从前端返回登录专家的code
+        return "/declare/examine_project_list";
     }
 
     /**
@@ -144,12 +146,14 @@ public class DeclareController {
     /**
      * 查看完成审核项目
      */
+
     @GetMapping(value = "/examinefinsh_project_list")
     public String finishExamineProject(Model model,
                                        @RequestParam(value = "page", defaultValue = "1") Integer page,
                                        @RequestParam(value = "limit", defaultValue = "5") Integer size){
         model.addAttribute("projects", declareService.findDeclareProject(page, size,4));
-        return "examineEnd_project_list";
+        return "declare/examineEnd_project_list";
+
     }
 
     /**
@@ -161,7 +165,7 @@ public class DeclareController {
                               @RequestParam(value = "page", defaultValue = "1") Integer page,
                               @RequestParam(value = "limit", defaultValue = "5") Integer size){
         model.addAttribute("comment",declareService.findComment(page,size,projectCode));//需要前端传回项目code
-        return "middle/project_comment_list";
+        return "declare/project_comment_list";
     }
 
     /**

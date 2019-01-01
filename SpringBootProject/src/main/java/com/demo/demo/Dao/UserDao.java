@@ -32,7 +32,12 @@ public interface UserDao extends JpaRepository<User,Integer> {
 	
 	public List<User> findAllByRolecode(int rolecode);
 
+
 	Page<User> findAll(Specification<User> state, Pageable pageable);
+
+	
+	public User findByCodeAndPassword(Integer code,String password);
+
 	
 
 }
