@@ -2,24 +2,16 @@
 <html>
 <div th:fragment="navbar" class="layui-side layui-bg-black">
   <div class="layui-side-scroll">
-    <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
+    <!-- 左侧导航区域（可配合layui已有的垂直导航） -->  
     <ul class="layui-nav layui-nav-tree" lay-filter="navbar" >
       <li class="layui-nav-item">
         <a href="/index">首页</a>
       </li>
-      <li class="layui-nav-item"  th:each="data:${datas1.content}" th:object=${data}>
-        <a href="javascript:;" th:text="*{modulename}" th:if="*{level} eq 0">管理员</a>
+      <li class="layui-nav-item"  th:each="modules:${datas}"  >
+        <a href="javascript:;" th:text="${modules.key}" >管理员</a>
         <dl class="layui-nav-child">
-          <dd>
-            <a th:if="*{level} eq *{id}"  th:attr="data-id='*{code}'" th:attr="data-title='*{modulename}'"  th:attr="data-url='*{url}'" href="javascript:;">项目列表</a>
-          </dd>
-        </dl>
-      </li>
-      <li class="layui-nav-item" th:each="data:${datas2.content}" th:object=${data}>
-        <a href="javascript:;">负责人</a>
-        <dl class="layui-nav-child">
-          <dd>
-            <a data-id="2" data-title="我的项目" data-url="/my_projects" href="javascript:;">我的项目</a>
+          <dd  th:each="module:${modules.value}">
+            <a th:if="${module.level} ne 0"  th:attr="data-id=${module.code},data-title=${module.modulename},data-url=${module.url}" th:text="${module.modulename}"  href="javascript:;">项目列表</a>
           </dd>
         </dl>
       </li>
