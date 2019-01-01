@@ -17,10 +17,10 @@ public class UserService {
     @Autowired
     UserDao userDao;
     
-    public Boolean login(Integer code,String paswd){
-        if (paswd == userDao.findPasswordByCode(code)){
-            return true;
-        }else return false;
+    public User login(User user){
+        
+        User u = userDao.findByCodeAndPassword(user.getCode(), user.getPassword());
+        return u;
     }
 
     public String register(User user){
@@ -76,3 +76,5 @@ public class UserService {
     	return userDao.findAll(pageable);
     }
 }
+
+

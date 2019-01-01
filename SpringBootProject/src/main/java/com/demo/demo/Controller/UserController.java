@@ -61,14 +61,7 @@ public class UserController {
         return "hello world";
     }
 
-
-    
-    @RequestMapping("/test1")
-    
-    
-    public void findbyid(HttpServletRequest req) {
-    	System.out.println(req.getParameter("id"));
-    }
+   
     
 	/**
 	 * 打开新增的页面

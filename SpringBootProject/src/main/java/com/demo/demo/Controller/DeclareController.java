@@ -146,12 +146,14 @@ public class DeclareController {
     /**
      * 查看完成审核项目
      */
+
     @GetMapping(value = "/examinefinsh_project_list")
     public String finishExamineProject(Model model,
                                        @RequestParam(value = "page", defaultValue = "1") Integer page,
                                        @RequestParam(value = "limit", defaultValue = "5") Integer size){
         model.addAttribute("projects", declareService.findDeclareProject(page, size,4));
         return "declare/examineEnd_project_list";
+
     }
 
     /**

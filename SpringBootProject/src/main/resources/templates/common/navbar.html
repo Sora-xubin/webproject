@@ -3,19 +3,19 @@
 <div th:fragment="navbar" class="layui-side layui-bg-black">
   <div class="layui-side-scroll">
     <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
-    <ul class="layui-nav layui-nav-tree" lay-filter="navbar">
+    <ul class="layui-nav layui-nav-tree" lay-filter="navbar" >
       <li class="layui-nav-item">
         <a href="/index">首页</a>
       </li>
-      <li class="layui-nav-item">
-        <a href="javascript:;">管理员</a>
+      <li class="layui-nav-item"  th:each="data:${datas1.content}" th:object=${data}>
+        <a href="javascript:;" th:text="*{modulename}" th:if="*{level} eq 0">管理员</a>
         <dl class="layui-nav-child">
           <dd>
-            <a data-id="1" data-title="项目列表" data-url="/project/list" href="javascript:;">项目列表</a>
+            <a th:if="*{level} eq *{id}"  th:attr="data-id='*{code}'" th:attr="data-title='*{modulename}'"  th:attr="data-url='*{url}'" href="javascript:;">项目列表</a>
           </dd>
         </dl>
       </li>
-      <li class="layui-nav-item">
+      <li class="layui-nav-item" th:each="data:${datas2.content}" th:object=${data}>
         <a href="javascript:;">负责人</a>
         <dl class="layui-nav-child">
           <dd>

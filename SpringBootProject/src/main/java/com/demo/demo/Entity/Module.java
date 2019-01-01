@@ -9,12 +9,15 @@ import javax.persistence.Table;
 public class Module extends EntityBase{
 	
 	@Column
-	private String code;
+	private Integer code;
 	@Column
 	private String modulename;
 	
 	@Column
 	private String url;
+	
+	@Column
+	private Integer level;
 
 	public String getModulename() {
 		return modulename;
@@ -32,12 +35,20 @@ public class Module extends EntityBase{
 		this.url = url;
 	}
 
-	public String getCode() {
+	public Integer getCode() {
 		return code;
 	}
 
-	public void setCode(String code) {
+	public void setCode(Integer code) {
 		this.code = code;
+	}
+
+	public Integer getLevel() {
+		return level;
+	}
+
+	public void setLevel(Integer level) {
+		this.level = level;
 	}
 	
 	
