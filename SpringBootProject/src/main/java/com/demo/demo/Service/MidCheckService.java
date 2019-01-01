@@ -43,7 +43,7 @@ public class MidCheckService {
         Page<Project> projectPage = projectDao.findAll(new Specification<Project>() {
             @Override
             public Predicate toPredicate(Root<Project> root, CriteriaQuery<?> criteriaQuery, CriteriaBuilder criteriaBuilder) {
-                return criteriaBuilder.equal(root.get("state"), 2);
+                return criteriaBuilder.equal(root.get("state"), 4);
             }
         },pageable);
         return projectPage;
@@ -112,5 +112,31 @@ public class MidCheckService {
     }
     public Project findProjectByCode(int projectCode) {
         return projectDao.findByCode(projectCode);
+    }
+
+    /**
+     * 查看已提交材料的中期项目
+     * @param page
+     * @param size
+     * @return
+     */
+    public Page<Project> findMidProject(Integer page, Integer size) {
+        Pageable pageable = PageRequest.of(page-1, size);
+        Page<Project> projectPage = projectDao.findAll(new Specification<Project>() {
+            @Override
+            public Predicate toPredicate(Root<Project> root, CriteriaQuery<?> criteriaQuery, CriteriaBuilder criteriaBuilder) {
+                return criteriaBuilder.equal(root.get("state"), 6);
+            }
+        },pageable);
+        return projectPage;
+    }
+    /**
+     * 管理员对已提交中期材料的项目审核
+     * @param projectCode
+     */
+    public void setMidCheckResult(int projectCode,int state){
+        Project project = projectDao.findByCode(projectCode);
+        project.setState(state);
+        projectDao.save(project);
     }
 }

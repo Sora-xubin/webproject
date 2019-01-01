@@ -3,7 +3,6 @@ package com.demo.demo.Controller;
 import com.demo.demo.Entity.Project;
 import com.demo.demo.Service.FileUtil;
 import com.demo.demo.Service.MidCheckService;
-import javassist.bytecode.analysis.MultiType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.data.domain.Page;
@@ -28,6 +27,7 @@ import java.util.Map;
 public class MidCheckController {
     @Autowired
     MidCheckService midCheckService;
+
 
     /**
      * 中期检查：分页查询已立项的项目
@@ -163,17 +163,27 @@ public class MidCheckController {
     }
 
     /**
+     * 查看已提交材料的项目
+     * @param model
+     * @param page
+     * @param size
+     * @return
+     */
+    @GetMapping(value = "/findMidCheckProject")
+    public String findMidProjectList(Model model,
+                                     @RequestParam(value = "page", defaultValue = "1") Integer page,
+                                     @RequestParam(value = "limit", defaultValue = "5") Integer size){
+        model.addAttribute("projects",midCheckService.findMidProject(page,size));
+        return "middle/mid_check_project_list";
+    }
+    /**
      * 中期检查：审核
      * @param
      */
     @ResponseBody
     @RequestMapping(value = "/set_status", method = RequestMethod.POST)
     public String setStatus(@RequestBody Map<String,Object> map) {
-        boolean isPassed = true;
-        if (isPassed) {
-            return "S";
-        } else {
-            return "F";
-        }
+        midCheckService.setMidCheckResult(Integer.parseInt((String)map.get("projectcode")),Integer.parseInt((String)map.get("state")));
+        return "success!";
     }
 }

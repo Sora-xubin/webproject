@@ -170,7 +170,7 @@ public class DeclareController {
     @RequestMapping(value = "/setProject")
     @ResponseBody
     public String setDeclare(@RequestBody Map<String,Object>map){
-        declareService.setDeclare(declareService.findProject((Integer)map.get("projectcode")),(Integer)map.get("state"));
+        declareService.setDeclare(declareService.findProject(Integer.parseInt((String) map.get("projectcode"))),Integer.parseInt((String)map.get("state")));
         return "success!";
     }
 }
