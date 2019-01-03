@@ -5,6 +5,7 @@ import com.demo.demo.Dao.ProjectMemberDao;
 import com.demo.demo.Dao.UserDao;
 import com.demo.demo.Entity.Project;
 import com.demo.demo.Entity.ProjectMember;
+import com.demo.demo.Entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -17,6 +18,7 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
+import javax.servlet.http.HttpSession;
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -56,8 +58,9 @@ public class MidCheckService {
      * @return
      */
     public Page<Project> getUserProject(Integer page, Integer size) {
+        //User user = (User) session.getAttribute("user");
         //根据userCode找到projectCode
-        Integer userCode = 1;
+        Integer userCode = 1002;//user.getCode();
         List<ProjectMember> projects = projectMemberDao.findByusercode(userCode);
         //根据projectCode进行分页查询
         Pageable pageable = PageRequest.of(page-1, size);
@@ -85,10 +88,9 @@ public class MidCheckService {
      * @throws ParseException
      */
     public boolean updateProject(Integer code, String comment, String date) throws ParseException {
-        Project demo = new Project();
-        demo.setCode(code);
+        Project demo = projectDao.findByCode(code);
         demo.setMidexplain(comment);
-        demo.setMidtime(new Timestamp(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(date).getTime()));
+        demo.setMidtime(new Timestamp(new SimpleDateFormat("yyyy-MM-dd").parse(date).getTime()));
         projectDao.save(demo);
         return true;
     }
@@ -102,6 +104,7 @@ public class MidCheckService {
         project.setMidreport(fileAddress);
         projectDao.save(project);
     }
+
     /**
      * 查找上传的中期材料地址
      * @param projectCode
@@ -110,6 +113,7 @@ public class MidCheckService {
         Project project = projectDao.findByCode(projectCode);
         return project.getMidreport();
     }
+
     public Project findProjectByCode(int projectCode) {
         return projectDao.findByCode(projectCode);
     }
@@ -130,6 +134,7 @@ public class MidCheckService {
         },pageable);
         return projectPage;
     }
+
     /**
      * 管理员对已提交中期材料的项目审核
      * @param projectCode

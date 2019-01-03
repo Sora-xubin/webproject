@@ -53,7 +53,6 @@ public class IndexController {
 			Map<String,List<Module>> modulemap = systemSettingService.getModuleByLevel(lists);
 			model.addAttribute("datas", modulemap);
 			
-			
 			//model.addAttribute("datas", lists);
 			return "home";
 		}
