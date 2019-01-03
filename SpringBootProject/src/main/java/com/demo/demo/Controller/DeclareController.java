@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpSession;
 import java.util.List;
 import java.util.Map;
 
@@ -148,11 +149,12 @@ public class DeclareController {
     /**
      * 专家给项目评审
      */
-    @RequestMapping(value = "subcomment")
+    @RequestMapping(value = "/subcomment")
     @ResponseBody
-    public String subComment(@RequestBody Map<String,Object> map){
-        declareService.subComment((Integer)map.get("projectcode"),(Integer)map.get("expertcode"),(Integer)map.get("mark"),(String)map.get("comment"));
-        declareService.setupProjectFinish(declareService.findProject((Integer)map.get("projectcode")));
+    public String subComment(@RequestBody Map<String,Object> map, HttpSession session){
+        User user =(User) session.getAttribute("user");
+        declareService.subComment(Integer.parseInt((String) map.get("projectcode")),user.getCode(),Integer.parseInt((String)map.get("mark")),(String)map.get("comment"));
+        declareService.setupProjectFinish(declareService.findProject(Integer.parseInt((String)map.get("projectcode"))));
         return "success!";
     }
 
@@ -178,6 +180,7 @@ public class DeclareController {
                               @RequestParam(value = "page", defaultValue = "1") Integer page,
                               @RequestParam(value = "limit", defaultValue = "5") Integer size){
         model.addAttribute("comment",declareService.findComment(page,size,projectCode));//需要前端传回项目code
+        model.addAttribute("projectcode",projectCode);
         return "declare/project_comment_list";
     }
 

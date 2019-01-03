@@ -110,10 +110,11 @@
 
     $('#subBtn').click(function() {
         $.post(
-            '',
+            '/middle_set',
             {
                 code: $('#code').text(),
-                deadline: $('#datepicker').val()
+                deadline: $('#datepicker').val(),
+                comment: $('#describe').val()
             },
             function(data){
                 if(data.msg == 'OK') {

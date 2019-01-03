@@ -1,5 +1,6 @@
 package com.demo.demo.Controller;
 
+import com.demo.demo.Dao.ProjectDao;
 import com.demo.demo.Entity.Project;
 import com.demo.demo.Service.FileUtil;
 import com.demo.demo.Service.MidCheckService;
@@ -28,7 +29,8 @@ import java.util.Map;
 public class MidCheckController {
     @Autowired
     MidCheckService midCheckService;
-
+    @Autowired
+    ProjectDao projectDao;
 
     /**
      * 中期检查：分页查询已立项的项目（完成
@@ -91,10 +93,10 @@ public class MidCheckController {
     @RequestMapping(value = "/upload_material", method = RequestMethod.POST, consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public Map uploadMaterial(@RequestParam("file") MultipartFile file,
                               @RequestParam("projectCode") String projectcode) {
-        String pathName = "/upload";
+        String pathName = "D:/";
         String fileName = file.getOriginalFilename();
         try{
-            FileUtil.uploadFile(file.getBytes(),pathName,"/"+fileName);
+            FileUtil.uploadFile(file.getBytes(),pathName,fileName);
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -102,6 +104,9 @@ public class MidCheckController {
         Map a = new HashMap();
         a.put("msg","success");
         a.put("code",0);
+        Project project = projectDao.findByCode(Integer.parseInt(projectcode));
+        project.setState(6);
+        projectDao.save(project);
         return a;
     }
 

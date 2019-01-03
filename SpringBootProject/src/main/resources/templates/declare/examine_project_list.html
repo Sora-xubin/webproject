@@ -22,15 +22,53 @@
         <td class="projectCode" th:text="${project.code}"></td>
         <td th:text="${project.name}"></td>
         <td th:switch="${project.state}">
-          <span th:case="1">已立项</span>
+
+          <span th:case="-2">立项未通过</span>
+          <span th:case="-1">初审未通过</span>
+          <span th:case="0">已申报项目</span>
+          <span th:case="1">通过初审</span>
           <span th:case="2">专家审核中</span>
-          <span th:case="3">中期检查待整改</span>
-          <span th:case="4">最终检查</span>
+          <span th:case="3">审核完成</span>
+          <span th:case="4">立项成功</span>
+          <span th:case="5">中期材料待提交</span>
+          <span th:case="6">中期材料已提交</span>
+          <span th:case="7">中期检查通过</span>
+          <span th:case="8">中期检查待整改</span>
+          <span th:case="9">后期材料待提交</span>
+          <span th:case="10">后期材料已提交</span>
+          <span th:case="11">后期材料待整改</span>
+          <span th:case="12">已结题</span>
+        </td>
+        <td>
+          <button type="button" class="layui-btn layui-btn-radius layui-btn-normal layui-btn-sm setBtn">操作</button>
         </td>
       </tr>
     </tbody>
   </table>
   <div id="page" th:attr="data-total=${expert.totalElements},data-curr=${expert.number+1}"></div>
+
+  <div id="info" style="display:none;">
+    <form action="" class="layui-form" style="margin-top: 10px;">
+      <div style="display: none" id="code"></div>
+      <div class="layui-form-item layui-form-text">
+        <label for="describe" class="layui-form-label">项目评分：</label>
+        <div class="layui-input-inline">
+          <input name="rate" id="rate" type="text">
+        </div>
+      </div>
+      <div class="layui-form-item layui-form-text">
+        <label for="describe" class="layui-form-label">项目评价：</label>
+        <div class="layui-input-inline">
+          <textarea name="comment" id="comment" cols="40" rows="10" class="layui-textarea"></textarea>
+        </div>
+      </div>
+      <div class="layui-form-item">
+        <div class="layui-input-block">
+          <button id="subBtn" type="button" class="layui-btn layui-btn-normal">设置</button>
+        </div>
+      </div>
+    </form>
+  </div>
 </body>
 
 <script>
@@ -44,6 +82,35 @@
       elem: '#datepicker'
     });
 
+      $('.setBtn').click(function setInfo() {
+          var code = $(this).parent().parent().children(".projectCode").text();
+          $('#code').text(code);
+          layer.open({
+              type: 1,
+              title: "输入",
+              shade: 0,
+              area: '500px',
+              content: $('#info'),
+          });
+      });
+
+      $('#subBtn').click(function() {
+    	  var data = {
+                  projectcode: $('#code').text(),
+                  mark: $('#rate').val(),
+                  comment: $('#comment').val()
+              }
+    	  $.ajax({
+              type: 'post',
+              url: '/subcomment',
+              contentType: 'application/json;charset=UTF-8',
+              data: JSON.stringify(data),
+              success: function(){
+                  alert("success");
+              }
+          });
+      });
+
     laypage.render({
       elem: 'page',
       curr: $('#page').attr('data-curr'),
@@ -51,7 +118,7 @@
       limit: 5,
       jump: function (obj, first) {
         if (!first) {
-          window.location.href = "/project/list?page=" + obj.curr + "&size=5"
+          window.location.href = "/examineproject?page=" + obj.curr + "&size=5"
         }
       }
     })

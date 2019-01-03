@@ -29,7 +29,7 @@ public class Project extends EntityBase{
     private String midreport;
 
     @Column
-    private Timestamp midtime;
+    private Date midtime;
 
     @Column
     private String midexplain;
@@ -103,16 +103,16 @@ public class Project extends EntityBase{
         return midreport;
     }
 
-    public void setMidreport(String midreport) {
+    public Date getMidtime() {
+		return midtime;
+	}
+
+	public void setMidtime(Date midtime) {
+		this.midtime = midtime;
+	}
+
+	public void setMidreport(String midreport) {
         this.midreport = midreport;
-    }
-
-    public Timestamp getMidtime() {
-        return midtime;
-    }
-
-    public void setMidtime(Timestamp midtime) {
-        this.midtime = midtime;
     }
 
     public String getFinreport() {

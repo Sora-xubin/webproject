@@ -19,11 +19,12 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import javax.servlet.http.HttpSession;
+
+import java.sql.Date;
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 @Service
@@ -90,7 +91,7 @@ public class MidCheckService {
     public boolean updateProject(Integer code, String comment, String date) throws ParseException {
         Project demo = projectDao.findByCode(code);
         demo.setMidexplain(comment);
-        demo.setMidtime(new Timestamp(new SimpleDateFormat("yyyy-MM-dd").parse(date).getTime()));
+        demo.setMidtime(new Date(new SimpleDateFormat("yyyy-MM-dd").parse(date).getTime()));
         projectDao.save(demo);
         return true;
     }
