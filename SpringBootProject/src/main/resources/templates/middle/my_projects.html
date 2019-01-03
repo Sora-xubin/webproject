@@ -27,7 +27,7 @@
       <span th:case="4">最终检查</span>
     </td>
     <td>
-      <button type="button" class="layui-btn layui-btn-radius layui-btn-normal layui-btn-sm setBtn">上传文件</button>
+      <button th:attr="data-projectCode=${project.code}" type="button" class="layui-btn layui-btn-radius layui-btn-normal layui-btn-sm uploadFile">上传文件</button>
     </td>
   </tr>
   </tbody>
@@ -38,14 +38,36 @@
 <!-- import JavaScript -->
 <script th:src="@{../assets/layui/layui.all.js}"></script>
 <script>
-    layui.use(['layer', 'jquery', 'laydate','laypage'], function () {
+    layui.use(['layer', 'jquery', 'laydate','laypage','upload'], function () {
         var layer = layui.layer,
             $ = layui.$,
             laydate = layui.laydate,
-            laypage = layui.laypage;
+            laypage = layui.laypage,
+            upload = layui.upload;
 
         laydate.render({
             elem: '#datepicker'
+        });
+
+        var shili = upload.render({
+            elem: '.uploadFile' //绑定元素
+            ,url: '/upload_material' //上传接口
+            ,accept:'file'
+            ,before: function(obj) {
+                this.data = {
+                    projectCode: this.elem.attr('data-projectCode')
+                }
+                layer.load(); //上传loading
+            }
+            ,done: function(res, index, upload){
+                layer.closeAll('loading'); //关闭loading
+                layer.open({
+                    content: '上传成功！'
+                });
+            }
+            ,error: function(index, upload){
+                layer.closeAll('loading'); //关闭loading
+            }
         });
 
         laypage.render({

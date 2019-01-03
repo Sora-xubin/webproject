@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.*;
 import java.text.ParseException;
 import java.util.HashMap;
@@ -30,7 +31,7 @@ public class MidCheckController {
 
 
     /**
-     * 中期检查：分页查询已立项的项目
+     * 中期检查：分页查询已立项的项目（完成
      * @return
      */
     @GetMapping(value = "/project/list")
@@ -42,7 +43,7 @@ public class MidCheckController {
     }
 
     /**
-     * 中期检查：教职工查询自己的项目
+     * 中期检查：教职工查询自己的项目（待测试
      * @param model
      * @param page
      * @param size
@@ -51,13 +52,14 @@ public class MidCheckController {
     @GetMapping(value = "/projects")
     public String getMyProjects(Model model,
                                  @RequestParam(value = "page", defaultValue = "1") Integer page,
-                                 @RequestParam(value = "limit", defaultValue = "5") Integer size) {
+                                 @RequestParam(value = "limit", defaultValue = "5") Integer size
+                                ) {
         model.addAttribute("datas", midCheckService.getUserProject(page, size));
         return "middle/my_projects";
     }
 
     /**
-     * 中期检查：对已立项的项目设置实时间期限和项目应该上传的材料说明
+     * 中期检查：对已立项的项目设置实时间期限和项目应该上传的材料说明(完成
      * @param deadline
      * @param description
      * @param projectCode
@@ -82,48 +84,32 @@ public class MidCheckController {
     }
 
     /**
-     * 中期检查：上传中期检查材料
+     * 中期检查：上传中期检查材料（文件上传类待修改
      * @return String
      */
     @ResponseBody
     @RequestMapping(value = "/upload_material", method = RequestMethod.POST, consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public String uploadMaterial(@RequestParam("file")MultipartFile file,@RequestParam("projectCode")int projectcode) {
-//        File convertFile = new File("/upload" + file.getOriginalFilename());
-//        convertFile.createNewFile();
-//        FileOutputStream fout = new FileOutputStream(convertFile);
-//        fout.write(file.getBytes());
-//        fout.close();
+    public Map uploadMaterial(@RequestParam("file") MultipartFile file,
+                              @RequestParam("projectCode") String projectcode) {
         String pathName = "/upload";
         String fileName = file.getOriginalFilename();
         try{
-            FileUtil.uploadFile(file.getBytes(),pathName,fileName);
+            FileUtil.uploadFile(file.getBytes(),pathName,"/"+fileName);
         }catch (Exception e){
             e.printStackTrace();
         }
-        midCheckService.saveMidAddress(projectcode,pathName+fileName);
-        return "File is upload successfully";
+        midCheckService.saveMidAddress(Integer.parseInt(projectcode),pathName+fileName);
+        Map a = new HashMap();
+        a.put("msg","success");
+        a.put("code",0);
+        return a;
     }
 
     /**
-     * 中期检查：下载中期检查材料
+     * 中期检查：下载中期检查材料（未完成
      */
     @ResponseBody
     @RequestMapping(value = "/download_material", method = RequestMethod.GET)
-//    public ResponseEntity<Object> downloadMaterial(int projectCode) throws IOException {
-//        Project project = midCheckService.findProjectByCode(projectCode);
-//        String filename = project.getMidreport();
-//        File file = new File(filename);
-//        InputStreamResource resource = new InputStreamResource(new FileInputStream(file));
-//        HttpHeaders headers = new HttpHeaders();
-//
-//        headers.add("Content-Disposition", filename);
-//        headers.add("Cache-Control", "no-cache, no-store, must-revalidate");
-//        headers.add("Pragma", "no-cache");
-//        headers.add("Expires", "0");
-//
-//        ResponseEntity<Object> responseEntity = ResponseEntity.ok().headers(headers).contentLength(file.length()).contentType(MediaType.parseMediaType("application/txt")).body(resource);
-//        return responseEntity;
-//    }
     public String downloadMaterial(@RequestParam("projectCode")int projectCode,HttpServletResponse response){
         String filePath = midCheckService.findMidAddress(projectCode);
         File file = new File(filePath);
@@ -163,7 +149,7 @@ public class MidCheckController {
     }
 
     /**
-     * 查看已提交材料的项目
+     * 查看已提交材料的项目（完成
      * @param model
      * @param page
      * @param size
@@ -176,6 +162,7 @@ public class MidCheckController {
         model.addAttribute("projects",midCheckService.findMidProject(page,size));
         return "middle/mid_check_project_list";
     }
+
     /**
      * 中期检查：审核
      * @param
