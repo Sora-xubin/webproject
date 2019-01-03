@@ -8,4 +8,5 @@ import java.util.List;
 
 public interface ProjectMemberDao extends JpaRepository<ProjectMember,Integer> {
     List<ProjectMember> findByusercode(Integer userCode);
+    List<ProjectMember> findAllByProjectcode(Integer projectCode);
 }

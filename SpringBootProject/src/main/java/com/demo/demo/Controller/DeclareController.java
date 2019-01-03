@@ -3,12 +3,14 @@ package com.demo.demo.Controller;
 import com.demo.demo.Entity.Project;
 import com.demo.demo.Entity.ProjectMember;
 import com.demo.demo.Entity.ProjectRule;
+import com.demo.demo.Entity.User;
 import com.demo.demo.Service.DeclareService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpSession;
 import java.util.List;
 import java.util.Map;
 
@@ -135,10 +137,11 @@ public class DeclareController {
     /**
      * 专家给项目评审
      */
-    @RequestMapping(value = "subcomment")
+    @RequestMapping(value = "/subcomment")
     @ResponseBody
-    public String subComment(@RequestBody Map<String,Object> map){
-        declareService.subComment((Integer)map.get("projectcode"),(Integer)map.get("expertcode"),(Integer)map.get("mark"),(String)map.get("comment"));
+    public String subComment(@RequestBody Map<String,Object> map, HttpSession session){
+        User user =(User) session.getAttribute("user");
+        declareService.subComment((Integer)map.get("projectcode"),user.getCode(),(Integer)map.get("mark"),(String)map.get("comment"));
         declareService.setupProjectFinish(declareService.findProject((Integer)map.get("projectcode")));
         return "success!";
     }
