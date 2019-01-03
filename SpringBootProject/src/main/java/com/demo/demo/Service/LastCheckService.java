@@ -43,7 +43,7 @@ public class LastCheckService {
         Page<Project> projectPage = projectDao.findAll(new Specification<Project>() {
             @Override
             public Predicate toPredicate(Root<Project> root, CriteriaQuery<?> criteriaQuery, CriteriaBuilder criteriaBuilder) {
-                return criteriaBuilder.equal(root.get("state"), 2);
+                return criteriaBuilder.equal(root.get("state"), 7);
             }
         },pageable);
         return projectPage;
@@ -116,7 +116,7 @@ public class LastCheckService {
         Page<Project> projectPage = projectDao.findAll(new Specification<Project>() {
             @Override
             public Predicate toPredicate(Root<Project> root, CriteriaQuery<?> criteriaQuery, CriteriaBuilder criteriaBuilder) {
-                return criteriaBuilder.equal(root.get("state"), 6);
+                return criteriaBuilder.equal(root.get("state"), 10);
             }
         },pageable);
         return projectPage;

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!--已申报项目列表-->
+    <meta charset="UTF-8">
+    <!-- import CSS -->
+    <link rel="stylesheet" th:href="@{../assets/layui/css/layui.css}">
+    <!-- import JavaScript -->
+    <script th:src="@{../assets/layui/layui.all.js}"></script>
+    <title>项目周期管理系统</title>
+</head>
+<body>
+<table class="layui-table" style="margin-top:0;">
+    <thead>
+    <tr>
+        <th>消息</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="project:${News}">
+        <td th:text="${project.news}">news</td>
+    </tr>
+    </tbody>
+</table>
+<div id="page" th:attr="data-total=${datas.totalElements},data-curr=${datas.number+1}"></div>
+</body>
+</html>
