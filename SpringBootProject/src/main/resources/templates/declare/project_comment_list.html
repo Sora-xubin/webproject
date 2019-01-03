@@ -27,6 +27,9 @@
     </tbody>
 </table>
 <div id="page" th:attr="data-total=${comment.totalElements},data-curr=${comment.number+1}"></div>
+<div id="projectcode" th:text="${projectcode}" style="display: none"></div>
+<button class="layui-btn layui-btn-radius layui-btn-normal pass">立项</button>
+<button class="layui-btn layui-btn-radius layui-btn-normal nopass">不立项</button>
 <script>
     layui.use(['element','laypage'],function () {
         var $ = layui.$,
@@ -40,10 +43,42 @@
             limit: 5,
             jump: function(obj, first){
                 if(!first) {
-                    window.location.href = "/declare_project_list=" + obj.curr + "&limit=5"
+                    window.location.href = "/project_comment_list=" + obj.curr + "&limit=5"
                 }
             }
         })
+
+        $('.pass').click(function(){
+            var code = $('#projectcode').text();
+            var project = {
+                "code": code,
+                "state": "1"
+            };
+            $.ajax({
+                type: 'post',
+                url: 'setProject',
+                contentType: 'application/json;charset=UTF-8',
+                data: JSON.stringify(project),
+                success: function(){
+                    alert("success");
+                }
+            })
+        });
+
+        $('.nopass').click(function(){
+            var code = $('#projectcode').text();
+            var project = {
+                "code": code,
+                "state": "-1"
+            };
+            $.ajax({
+                type: 'post',
+                url: 'setProject',
+                contentType: 'application/json;charset=UTF-8',
+                data: JSON.stringify(project),
+                success: alert("success")
+            })
+        });
     });
 </script>
 </body>

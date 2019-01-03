@@ -165,6 +165,7 @@ public class DeclareController {
                               @RequestParam(value = "page", defaultValue = "1") Integer page,
                               @RequestParam(value = "limit", defaultValue = "5") Integer size){
         model.addAttribute("comment",declareService.findComment(page,size,projectCode));//需要前端传回项目code
+        model.addAttribute("projectcode",projectCode);
         return "declare/project_comment_list";
     }
 
