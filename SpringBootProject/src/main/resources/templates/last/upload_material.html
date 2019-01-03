@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <!-- import CSS -->
+  <link rel="stylesheet" href="../static/assets/layui/css/layui.css">
+  <!-- import JavaScript -->
+  <script src="../static/assets/layui/layui.all.js"></script>
+  <title>上传结题验收材料</title>
+</head>
+
+<body>
+  <table class="layui-table">
+    <thead>
+      <tr>
+        <th>项目名称</th>
+        <th>项目负责人</th>
+        <th>项目进度</th>
+        <th>相关操作</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr th:each="project : ${projects}">
+        <td th:text="${priject.name}">java</td>
+        <td th:text="${priject.user}">lopez</td>
+        <td th:text="${project.status}">结题验收待审</td>
+        <td>
+          <button id="uploadBtn" type="button" class="layui-btn layui-btn-radius layui-btn-normal">上传结题验收材料</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</body>
+
+<script>
+  layui.use('upload', function() {
+    var upload = layui.upload;
+
+    var uploadInst = upload.render({
+      elem: '#uploadBtn',
+      url: '', //上传接口
+      done: function(){
+
+      },
+      error: function() {
+        
+      }
+    })
+  })
+</script>
+
+</html>
