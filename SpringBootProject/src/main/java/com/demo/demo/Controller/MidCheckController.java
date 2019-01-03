@@ -39,7 +39,7 @@ public class MidCheckController {
                                  @RequestParam(value = "page", defaultValue = "1") Integer page,
                                  @RequestParam(value = "limit", defaultValue = "5") Integer size) {
         model.addAttribute("datas", midCheckService.getApprovedProject(page, size));
-        return "middle/all_project_list";
+        return "/middle/all_project_list";
     }
 
     /**
@@ -55,7 +55,7 @@ public class MidCheckController {
                                  @RequestParam(value = "limit", defaultValue = "5") Integer size
                                 ) {
         model.addAttribute("datas", midCheckService.getUserProject(page, size));
-        return "middle/my_projects";
+        return "/middle/my_projects";
     }
 
     /**
@@ -160,7 +160,7 @@ public class MidCheckController {
                                      @RequestParam(value = "page", defaultValue = "1") Integer page,
                                      @RequestParam(value = "limit", defaultValue = "5") Integer size){
         model.addAttribute("projects",midCheckService.findMidProject(page,size));
-        return "middle/mid_check_project_list";
+        return "/middle/mid_check_project_list";
     }
 
     /**

@@ -73,30 +73,14 @@
 		</div>
 		
 		<div class="layui-form-item" style="margin-left:100px">
-			<botton class="layui-btn layui-btn-radius layui-btn-primary" id="roleset">角色分配</botton>
+		
 			<button  class="layui-btn" lay-submit lay-filter="add">确定修改</button>
 		</div>
 		
 		
 		
 	</form>
-	<div id="roleallot" style="display:none">
-		<form action="" style="margin-top:10px" class="layui-form">
-			<div class="layui-form-item"  >
-			<label class="layui-form-label">请选择分配的角色：</label>
-		<div class="layui-input-inline" th:each="data : ${datas.content}" th:object="${data}" >
-			<input  type="radio" name="rolecode"  th:title="*{name}" th:value="*{code}" id="role" lay-filter="test">
-				
-		</div>
-		</div>
-		<div class="layui-form-item " style="margin-left:120px;">
-			<div class="layui-input-inline">
-				<botton id="setrole" lay-submit class="layui-btn" lay-filter="setrole">分配</botton>
-				
-			</div>
-		</div>
-		</form>
-		</div>
+	
 </body>
 <!-- import JavaScript -->
 <script th:src="@{../assets/layui/layui.all.js}"></script>
@@ -114,7 +98,7 @@
 			 elem:'#datepicker2' //指定元素
 			 
 			  });
-		$('#roleset').click(function setRole(){
+		/* $('#roleset').click(function setRole(){
 			layer.open({
 				type:1,
 				title:"角色分配",	
@@ -136,7 +120,7 @@
 				  }
 				  
 				  
-			  })
+			  }) */
 			  
 			});  
 		/* form.on('submit(add)',function(data){	

@@ -38,6 +38,7 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 @Controller
 @EnableAutoConfiguration
@@ -92,7 +93,7 @@ public class UserController {
 		return "redirect:/user/list";
 	}
 	/**
-	 * 打开修改用户界面
+	 * 管理员打开修改用户界面
 	 * 
 	 * 
 	 * 
@@ -105,6 +106,20 @@ public class UserController {
 		model.addAttribute("user",userService.findById(userid));
 		model.addAttribute("readonly", true);
 		model.addAttribute("datas",systemSettingService.findAllRole(pageable));
+		return "/user/update";
+	}
+	/**
+	 * 根据登录用户的信息，打开修改个人信息的页面
+	 * @param session
+	 * @param model
+	 * @param user
+	 * @return
+	 */
+	@RequestMapping("/owninfo")
+	public String openOwnInfo(HttpSession session,Model model,@ModelAttribute User user) {
+		User luser = (User) session.getAttribute("user");
+		model.addAttribute("user",userService.findById(luser.getId()));
+		model.addAttribute("readonly", true);
 		return "/user/update";
 	}
 	/**

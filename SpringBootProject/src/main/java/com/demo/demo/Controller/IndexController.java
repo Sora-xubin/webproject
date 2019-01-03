@@ -52,7 +52,7 @@ public class IndexController {
 			List<Module> lists = systemSettingService.findAllModuleByRoleModule(systemSettingService.findAllRoleModuleByCode(loginuser.getRolecode()));
 			Map<String,List<Module>> modulemap = systemSettingService.getModuleByLevel(lists);
 			model.addAttribute("datas", modulemap);
-			
+			model.addAttribute("user",loginuser);
 			//model.addAttribute("datas", lists);
 			return "home";
 		}

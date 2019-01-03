@@ -23,7 +23,7 @@
         <td th:text="${project.name}"></td>
         <td th:switch="${project.state}">
           <span th:case="1">已立项</span>
-          <span th:case="2">中期检查</span>
+          <span th:case="2">专家审核中</span>
           <span th:case="3">中期检查待整改</span>
           <span th:case="4">最终检查</span>
         </td>

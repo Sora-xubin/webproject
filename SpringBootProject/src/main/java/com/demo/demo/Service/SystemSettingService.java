@@ -145,15 +145,14 @@ public class SystemSettingService {
 		Map<String,List<Module>> modulemap = new HashMap<String,List<Module>> ();
 		for(Module module:modules) {
 			if(module.getLevel()==0) {
-	
 				List<Module> samemodule = new ArrayList<Module>();
 				samemodule.add(module);
 				for(Module module1:modules) {
 					if(module1.getLevel()==module.getId()) {
 					samemodule.add(module1)	;
 					}
-				modulemap.put(module.getModulename(), samemodule);
 				}
+				modulemap.put(module.getModulename(), samemodule);
 			}
 		}
 		return modulemap;

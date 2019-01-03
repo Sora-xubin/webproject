@@ -3,6 +3,7 @@ package com.demo.demo.Controller;
 import com.demo.demo.Entity.Project;
 import com.demo.demo.Entity.ProjectMember;
 import com.demo.demo.Entity.ProjectRule;
+import com.demo.demo.Entity.User;
 import com.demo.demo.Service.DeclareService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -12,6 +13,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+
 /**
  * Created by XB on 2018/12/20.
  */
@@ -19,6 +22,14 @@ import java.util.Map;
 public class DeclareController {
     @Autowired
     DeclareService declareService;
+    
+    /**
+     * 跳转至创建规则
+     */
+    @GetMapping(value = "/setrule_view")
+    public String setRuleView() {
+    	return "/declare/set_rule";
+    }
 
     /**
      * 创建规则
@@ -116,7 +127,7 @@ public class DeclareController {
                              @RequestParam(value = "page", defaultValue = "1") Integer page,
                              @RequestParam(value = "limit", defaultValue = "5") Integer size){
         model.addAttribute("projectCode",Integer.parseInt(projectCode));
-        model.addAttribute("experts",declareService.findExpertList(page, size,0));
+        model.addAttribute("experts",declareService.findExpertList(page, size,3));
         return "declare/expert_list";
     }
 
@@ -125,9 +136,11 @@ public class DeclareController {
      */
     @GetMapping(value = "/examineproject")
     public String examineProject(Model model,
-                                 @RequestParam(value = "expertCode")int expertCode,
+                                 HttpSession session,
                                  @RequestParam(value = "page", defaultValue = "1") Integer page,
                                  @RequestParam(value = "limit", defaultValue = "5") Integer size){
+    	User user = (User)session.getAttribute("user");
+    	Integer expertCode = user.getCode();
         model.addAttribute("expert",declareService.findExamineProject(page,size,expertCode));//需要从前端返回登录专家的code
         return "/declare/examine_project_list";
     }
@@ -147,12 +160,12 @@ public class DeclareController {
      * 查看完成审核项目
      */
 
-    @GetMapping(value = "/examinefinsh_project_list")
+    @GetMapping(value = "/examinefinish_project_list")
     public String finishExamineProject(Model model,
                                        @RequestParam(value = "page", defaultValue = "1") Integer page,
                                        @RequestParam(value = "limit", defaultValue = "5") Integer size){
-        model.addAttribute("projects", declareService.findDeclareProject(page, size,4));
-        return "declare/examineEnd_project_list";
+        model.addAttribute("projects", declareService.findDeclareProject(page, size,3));
+        return "/declare/examineEnd_project_list";
 
     }
 

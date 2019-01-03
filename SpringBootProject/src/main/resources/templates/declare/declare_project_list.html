@@ -46,7 +46,7 @@
             limit: 5,
             jump: function(obj, first){
                 if(!first) {
-                    window.location.href = "/declare_project_list=" + obj.curr + "&limit=5"
+                    window.location.href = "/declare_project_list?page=" + obj.curr + "&limit=5"
                 }
             }
         })
