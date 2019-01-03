@@ -32,12 +32,9 @@ public class IndexController {
 		return "login";
 	}
 	
-	@GetMapping(value = "/index")
-    public String main(Model model) {
-        return "home";
-    }
+
 	
-	@PostMapping(value="/login")
+	@PostMapping(value="/index")
 	public String login(@ModelAttribute User user,HttpSession session,Model model) {
 		System.out.println(user.getCode() + "---" + user.getPassword());
 		User loginuser = userService.login(user);

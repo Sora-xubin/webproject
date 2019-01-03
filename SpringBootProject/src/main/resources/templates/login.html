@@ -15,7 +15,7 @@
       <p class="logo">项目管理系统登录</p>
     </div>
     <div class="login-container">
-      <form class="layui-form" method="POST" th:action="@{/login}"  th:object="${user}">
+      <form class="layui-form" method="POST" th:action="@{/index}"  th:object="${user}">
    		 <div class="form-group row">
                 <div class="col-sm-5"></div>
                 <span class="col-sm-4" style="color: red;" th:text="${msg}">用户名密码错误</span>
