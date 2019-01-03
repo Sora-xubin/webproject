@@ -51,13 +51,7 @@ public class IndexController {
 			session.setAttribute("user", loginuser);
 			List<Module> lists = systemSettingService.findAllModuleByRoleModule(systemSettingService.findAllRoleModuleByCode(loginuser.getRolecode()));
 			Map<String,List<Module>> modulemap = systemSettingService.getModuleByLevel(lists);
-			Integer sum = modulemap.size();
-			for(Map.Entry<String, List<Module>> entry:modulemap.entrySet()){
-				int i = 1;
-				model.addAttribute("datas"+i, entry.getValue());
-				i++;
-			}
-			
+			model.addAttribute("datas", modulemap);
 			
 			//model.addAttribute("datas", lists);
 			return "home";

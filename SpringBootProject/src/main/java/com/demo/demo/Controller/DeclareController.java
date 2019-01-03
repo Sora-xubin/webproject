@@ -137,7 +137,7 @@ public class DeclareController {
     /**
      * 专家给项目评审
      */
-    @RequestMapping(value = "subcomment")
+    @RequestMapping(value = "/subcomment")
     @ResponseBody
     public String subComment(@RequestBody Map<String,Object> map, HttpSession session){
         User user =(User) session.getAttribute("user");

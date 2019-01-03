@@ -11,13 +11,13 @@
 <body>
 <table id="projects" class="layui-table" style="margin-top:0;">
   <thead>
-    <th style="display: none">项目编号</th>
-    <th>项目名</th>
-    <th>状态</th>
-    <th>操作</th>
+  <th style="display: none">项目编号</th>
+  <th>项目名</th>
+  <th>状态</th>
+  <th>操作</th>
   </thead>
   <tbody>
-  <tr th:each="project : ${datas}">
+  <tr th:each="project : ${projects}">
     <td class="projectCode" style="display: none" th:text="${project.code}"></td>
     <td th:text="${project.name}"></td>
     <td th:switch="${project.state}">
@@ -38,12 +38,12 @@
       <span th:case="12">已结题</span>
     </td>
     <td>
-      <button th:attr="data-projectCode=${project.code}" type="button" class="layui-btn layui-btn-radius layui-btn-normal layui-btn-sm uploadFile">上传文件</button>
+      <button th:attr="data-projectCode=${project.code}" type="button" class="layui-btn layui-btn-radius layui-btn-normal layui-btn-sm uploadFile">下载文件</button>
     </td>
   </tr>
   </tbody>
 </table>
-<div id="page" th:attr="data-total=${datas.totalElements},data-curr=${datas.number+1}"></div>
+<div id="page" th:attr="data-total=${projects.totalElements},data-curr=${projects.number+1}"></div>
 </body>
 
 <!-- import JavaScript -->
