@@ -31,6 +31,8 @@ public class DeclareService {
     private UserDao userDao;
     @Autowired
     private ProjectMemberDao projectMemberDao;
+    @Autowired
+    private NewService newService;
     /**
      * 设置规则
      */
@@ -99,6 +101,7 @@ public class DeclareService {
     public void firstExamine(Project project,int state){
         project.setState(state);
         projectDao.save(project);
+        newService.saveNew(project.getCode(),project.getState());
     }
 
     /**
@@ -131,6 +134,7 @@ public class DeclareService {
     public void setupProject(Project project){
         project.setState(2);
         projectDao.save(project);
+        newService.saveNew(project.getCode(),project.getState());
     }
 
     /**
@@ -180,6 +184,7 @@ public class DeclareService {
             if (i == list.size()-1){
                 project.setState(3);
                 projectDao.save(project);
+                newService.saveNew(project.getCode(),project.getState());
             }
         }
     }
@@ -201,15 +206,16 @@ public class DeclareService {
     /**
      * 初审结果
      * 4=已立项
-     * 5=不立项
+     * -2=不立项
      */
     public void setDeclare(Project project,int state){
         if(state == 1){
             project.setState(4);
         }else {
-            project.setState(5);
+            project.setState(-2);
         }
         projectDao.save(project);
+        newService.saveNew(project.getCode(),project.getState());
     }
 
 }
