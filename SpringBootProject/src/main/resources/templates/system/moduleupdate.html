@@ -8,18 +8,34 @@
 </head>
 <body>
 <form class="layui-form" th:action="@{/modulesave}" th:object="${module}" lay-filter="addrole" style="margin-top:50px;" method="post">
+		<input type="hidden" name="id" th:value="*{id}"/>
 		<div class="layui-form-item">
 			<label class="layui-form-label">编号</label>
 			<div class="layui-input-inline">
 				<input type="text" name="code" required lay-verify="required"
-					placeholder="请输入编号" class="layui-input">
+					placeholder="请输入编号" class="layui-input" th:value="*{code}">
 			</div>
 		</div>
 		<div class="layui-form-item">
 			<label class="layui-form-label">菜单名称</label>
 			<div class="layui-input-inline">
 				<input type="text" name="modulename" required lay-verify="required"
-					placeholder="请输入菜单名称" class="layui-input">
+					placeholder="请输入菜单名称" class="layui-input" th:value="*{modulename}">
+			</div>
+		</div>
+		
+		<div class="layui-form-item">
+			<label class="layui-form-label">url</label>
+			<div class="layui-input-inline">
+				<input type="text" name="modulename" 
+					placeholder="请输入url" class="layui-input" th:value="*{url}">
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label">菜单等级</label>
+			<div class="layui-input-inline">
+				<input type="text" name="modulename" 
+					placeholder="请输入菜单等级" class="layui-input" th:value="*{level}">
 			</div>
 		</div>
 		
