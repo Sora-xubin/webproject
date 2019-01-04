@@ -119,10 +119,14 @@
             function(data){
                 if(data.msg == 'OK') {
                     //如果成功，提示并关闭layer层
-                    alert("提交成功！")
+                    layer.open({
+                        content: '提交成功'
+                    });
                     layer.closeAll();
                 } else {
-                    alert("提交失败")
+                    layer.open({
+                        content: '提交失败'
+                    });
                     //如果失败，仅提示
                 }
             },

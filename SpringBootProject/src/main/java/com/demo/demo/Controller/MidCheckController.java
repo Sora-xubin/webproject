@@ -93,7 +93,7 @@ public class MidCheckController {
     @RequestMapping(value = "/upload_material", method = RequestMethod.POST, consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public Map uploadMaterial(@RequestParam("file") MultipartFile file,
                               @RequestParam("projectCode") String projectcode) {
-        String pathName = "D:/";
+        String pathName = "C:/";
         String fileName = file.getOriginalFilename();
         try{
             FileUtil.uploadFile(file.getBytes(),pathName,fileName);
@@ -111,18 +111,18 @@ public class MidCheckController {
     }
 
     /**
-     * 中期检查：下载中期检查材料（未完成
+     * 中期检查：下载中期检查材料（完成
      */
-    @ResponseBody
-    @RequestMapping(value = "/download_material", method = RequestMethod.GET)
-    public String downloadMaterial(@RequestParam("projectCode")int projectCode,HttpServletResponse response){
-        String filePath = midCheckService.findMidAddress(projectCode);
+    @GetMapping(value = "/download_material")
+    public String downloadMaterial(@RequestParam("projectcode") String projectCode,
+                                   HttpServletResponse response){
+        String filePath = midCheckService.findMidAddress(Integer.parseInt(projectCode));
         File file = new File(filePath);
-        if(file.exists()){
-            response.setContentType("application/force-download");
-            String fileName = "MidCheckReport";
-            String suffixName = fileName.substring(fileName.lastIndexOf("."));
-            fileName = fileName+ suffixName;
+        if(file.exists()) {
+            String fileName = "MidCheck";
+            String suffixName = filePath.substring(filePath.lastIndexOf("."));
+            fileName = fileName + suffixName;
+
             response.setHeader("Content-Disposition", "attachment;fileName=" + fileName);
 
             byte[] buffer = new byte[1024];
@@ -135,11 +135,10 @@ public class MidCheckController {
                 fis = new FileInputStream(file);
                 bis = new BufferedInputStream(fis);
                 int i = bis.read(buffer);
-                while(i != -1){
+                while (i != -1) {
                     os.write(buffer);
                     i = bis.read(buffer);
                 }
-
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -150,7 +149,7 @@ public class MidCheckController {
                 e.printStackTrace();
             }
         }
-        return "success!";
+        return null;
     }
 
     /**
@@ -174,8 +173,8 @@ public class MidCheckController {
      */
     @ResponseBody
     @RequestMapping(value = "/set_status", method = RequestMethod.POST)
-    public String setStatus(@RequestBody Map<String,Object> map) {
-        midCheckService.setMidCheckResult(Integer.parseInt((String)map.get("projectcode")),Integer.parseInt((String)map.get("state")));
+    public String setStatus(@RequestBody Map<String,String> map) {
+        midCheckService.setMidCheckResult(Integer.parseInt(map.get("projectcode")),Integer.parseInt(map.get("state")));
         return "success!";
     }
 }

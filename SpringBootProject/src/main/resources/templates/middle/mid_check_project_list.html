@@ -38,7 +38,9 @@
       <span th:case="12">已结题</span>
     </td>
     <td>
-      <button th:attr="data-projectCode=${project.code}" type="button" class="layui-btn layui-btn-radius layui-btn-normal layui-btn-sm uploadFile">下载文件</button>
+      <button th:attr="data-projectCode=${project.code}" type="button" class="layui-btn layui-btn-radius layui-btn-normal layui-btn-sm downFile">下载文件</button>
+      <button th:attr="data-projectCode=${project.code}" type="button" class="layui-btn layui-btn-radius layui-btn-normal layui-btn-sm pass">审核通过</button>
+      <button th:attr="data-projectCode=${project.code}" type="button" class="layui-btn layui-btn-radius layui-btn-normal layui-btn-sm nopass">不通过</button>
     </td>
   </tr>
   </tbody>
@@ -60,26 +62,48 @@
             elem: '#datepicker'
         });
 
-        var shili = upload.render({
-            elem: '.uploadFile' //绑定元素
-            ,url: '/upload_material' //上传接口
-            ,accept:'file'
-            ,before: function(obj) {
-                this.data = {
-                    projectCode: this.elem.attr('data-projectCode')
+        $('.downFile').click(function(){
+            projectcode = $(this).attr("data-projectCode")
+            window.open("/download_material?projectcode="+projectcode,"_blank");
+        })
+
+        $('.pass').click(function(){
+            $.ajax({
+                type:'post',
+                url:'/set_status',
+                contentType:'application/json;charset=UTF-8',
+                data: JSON.stringify({
+                    "projectcode":$(this).attr('data-projectCode'),
+                    "state": 7
+                }),
+                success: function (data) {
+                    if(data == 'success!') {
+                        layer.open({
+                            content: '提交成功'
+                        });
+                    }
                 }
-                layer.load(); //上传loading
-            }
-            ,done: function(res, index, upload){
-                layer.closeAll('loading'); //关闭loading
-                layer.open({
-                    content: '上传成功！'
-                });
-            }
-            ,error: function(index, upload){
-                layer.closeAll('loading'); //关闭loading
-            }
-        });
+            })
+        })
+
+        $('.nopass').click(function () {
+            $.ajax({
+                type:'post',
+                url:'/set_status',
+                contentType:'application/json;charset=UTF-8',
+                data: JSON.stringify({
+                    "projectcode":$(this).attr('data-projectCode'),
+                    "state": 8
+                }),
+                success: function (data) {
+                    if(data == 'success!') {
+                        layer.open({
+                            content: '提交成功'
+                        });
+                    }
+                }
+            })
+        })
 
         laypage.render({
             elem: 'page',
@@ -88,7 +112,7 @@
             limit: 5,
             jump: function(obj, first){
                 if(!first) {
-                    window.location.href = "/project/list?page=" + obj.curr + "&size=5"
+                    window.location.href = "/findMidCheckProject?page=" + obj.curr + "&size=5"
                 }
             }
         })
