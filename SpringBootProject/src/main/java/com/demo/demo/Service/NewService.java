@@ -3,6 +3,7 @@ package com.demo.demo.Service;
 import com.demo.demo.Dao.NewDao;
 import com.demo.demo.Dao.ProjectDao;
 import com.demo.demo.Dao.ProjectMemberDao;
+import com.demo.demo.Entity.Comment;
 import com.demo.demo.Entity.New;
 import com.demo.demo.Entity.Project;
 import com.demo.demo.Entity.ProjectMember;
@@ -85,12 +86,13 @@ public class NewService {
      */
     public Page<New> history(Integer page, Integer size,Integer usercode){
         Pageable pageable = PageRequest.of(page-1, size);
-        Page<New> newsPage = newDao.findAllByUsercode(new Specification<New>() {
+        Page<New> newsPage = newDao.findAll(new Specification<New>() {
             @Override
             public Predicate toPredicate(Root<New> root, CriteriaQuery<?> criteriaQuery, CriteriaBuilder criteriaBuilder) {
                 return criteriaBuilder.equal(root.get("usercode"), usercode);
             }
         },pageable);
         return newsPage;
+        
     }
 }

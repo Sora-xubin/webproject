@@ -23,8 +23,9 @@ public class NewController {
                            HttpSession session,
                            @RequestParam(value = "page", defaultValue = "1") Integer page,
                            @RequestParam(value = "limit", defaultValue = "5") Integer size){
-        User user = (User) session.getAttribute("user");
-        model.addAttribute("News",newService.history(page,size,user.getCode()));
-        return "/new/new_list";
+    	User user = (User)session.getAttribute("user");
+    	Integer userCode = user.getCode();
+        model.addAttribute("News",newService.history(page,size,userCode));
+        return "new/new_list";
     }
 }
