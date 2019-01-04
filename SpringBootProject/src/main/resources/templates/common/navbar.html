@@ -5,7 +5,7 @@
     <!-- 左侧导航区域（可配合layui已有的垂直导航） -->  
     <ul class="layui-nav layui-nav-tree" lay-filter="navbar" >
       <li class="layui-nav-item">
-        <a href="/index">首页</a>
+        <a th:href="@{/index}">首页</a>
       </li>
       <li class="layui-nav-item"  th:each="modules:${datas}"  >
         <a href="javascript:;" th:text="${modules.key}" >管理员</a>
