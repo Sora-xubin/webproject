@@ -37,6 +37,9 @@ public class LastCheckService {
 
     @Autowired
     ProjectMemberDao projectMemberDao;
+    
+    @Autowired
+    NewService newService;
 
     /**
      * 获取已经通过中期检查的项目列表
@@ -86,6 +89,7 @@ public class LastCheckService {
     	demo.setState(9);
     	demo.setFinexplain(comment);
         demo.setFintime(new Date(new SimpleDateFormat("yyyy-MM-dd").parse(date).getTime()));
+        newService.saveNew(demo.getCode(),demo.getState());
         projectDao.save(demo);
         return true;
     }
@@ -94,10 +98,11 @@ public class LastCheckService {
      * 保存上传的结题材料地址
      */
     public void saveLastAddress(int projectCode,String fileAddress){
-        Project project = projectDao.findByCode(projectCode);
-        project.setState(10);
+    	Project project = projectDao.findByCode(projectCode);
         project.setFinreport(fileAddress);
-        projectDao.save(project);
+        project.setState(10);
+        newService.saveNew(project.getCode(),project.getState());
+        projectDao.save(project);            
     }
     /**
      * 查找上传的结题材料地址
@@ -131,5 +136,6 @@ public class LastCheckService {
         Project project = projectDao.findByCode(projectCode);
         project.setState(state);
         projectDao.save(project);
+        newService.saveNew(project.getCode(),project.getState());
     }
 }
