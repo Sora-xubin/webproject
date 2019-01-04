@@ -97,7 +97,7 @@ public class LastCheckController {
         Map a = new HashMap();
         a.put("msg","success");
         a.put("code",0);
-        Project project = projectDao.findByCode(Integer.parseInt(projectcode));
+        Project project = projectDao.findByCode(Integer.parseInt(projectcode));       
         project.setState(10);
         projectDao.save(project);
         return a;

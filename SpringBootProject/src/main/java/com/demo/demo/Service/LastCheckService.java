@@ -83,7 +83,8 @@ public class LastCheckService {
      */
     public boolean updateProject(Integer code, String comment, String date) throws ParseException {
     	Project demo = projectDao.findByCode(code);
-        demo.setFinexplain(comment);
+    	demo.setState(9);
+    	demo.setFinexplain(comment);
         demo.setFintime(new Date(new SimpleDateFormat("yyyy-MM-dd").parse(date).getTime()));
         projectDao.save(demo);
         return true;
@@ -94,6 +95,7 @@ public class LastCheckService {
      */
     public void saveLastAddress(int projectCode,String fileAddress){
         Project project = projectDao.findByCode(projectCode);
+        project.setState(10);
         project.setFinreport(fileAddress);
         projectDao.save(project);
     }
