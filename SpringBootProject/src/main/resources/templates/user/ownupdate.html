@@ -7,7 +7,7 @@
 <title>项目周期管理系统</title>
 </head>
 <body>
-	<form class="layui-form" th:action="@{/useradd}" th:object="${user}" id="addform" style="margin-top:0px;" method="post">
+	<form class="layui-form" th:action="@{/ownupdate}" th:object="${user}" id="addform" style="margin-top:0px;" method="post">
 		<input type="hidden" name="id" th:value="*{id}"  id="userid"/>
 		<div class="layui-form-item">
 			<label class="layui-form-label" >编号</label>
@@ -147,7 +147,7 @@
 
 		});
 		 */
-	})
+	
 </script> 
 
 </html>

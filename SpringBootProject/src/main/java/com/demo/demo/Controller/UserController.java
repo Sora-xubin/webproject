@@ -93,6 +93,19 @@ public class UserController {
 		return "redirect:/user/list";
 	}
 	/**
+	 * 用户更改自己的信息并保存
+	 * @param user
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping(value="/ownupdate",method = RequestMethod.POST)
+	public void userupdate(@ModelAttribute User user,HttpSession session) {
+		User luser = (User) session.getAttribute("user");
+		user.setRolecode(luser.getRolecode());
+		userService.save(user);
+		
+	}
+	/**
 	 * 管理员打开修改用户界面
 	 * 
 	 * 
@@ -120,7 +133,7 @@ public class UserController {
 		User luser = (User) session.getAttribute("user");
 		model.addAttribute("user",userService.findById(luser.getId()));
 		model.addAttribute("readonly", true);
-		return "/user/update";
+		return "/user/ownupdate";
 	}
 	/**
 	 * 打开list界面
