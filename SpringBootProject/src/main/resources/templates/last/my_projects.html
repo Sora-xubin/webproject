@@ -62,7 +62,7 @@
 
         var shili = upload.render({
             elem: '.uploadFile' //绑定元素
-            ,url: '/upload_material' //上传接口
+            ,url: '/Fupload_material' //上传接口
             ,accept:'file'
             ,before: function(obj) {
                 this.data = {
@@ -88,7 +88,7 @@
             limit: 5,
             jump: function(obj, first){
                 if(!first) {
-                    window.location.href = "/project/list?page=" + obj.curr + "&size=5"
+                    window.location.href = "/Fproject/list?page=" + obj.curr + "&size=5"
                 }
             }
         })

@@ -27,6 +27,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.demo.demo.Dao.ProjectDao;
 import com.demo.demo.Entity.Project;
 import com.demo.demo.Service.FileUtil;
 import com.demo.demo.Service.LastCheckService;
@@ -35,6 +36,8 @@ import com.demo.demo.Service.MidCheckService;
 public class LastCheckController {
 	@Autowired
     LastCheckService lastCheckService;
+    @Autowired
+    ProjectDao projectDao;
 	/**
 	 * 结题检查：分页查询项目
 	 */
@@ -43,8 +46,9 @@ public class LastCheckController {
         @RequestParam(value = "page", defaultValue = "1") Integer page,
         @RequestParam(value = "limit", defaultValue = "5") Integer size) {
         model.addAttribute("datas", lastCheckService.getApprovedProject(page, size));
-        return "last/all_project_list";
-}
+        return "/last/all_project_list";
+    }
+
     /**
      * 结题检查：教职工查询自己的项目
      */
@@ -56,7 +60,7 @@ public class LastCheckController {
         return "last/my_projects";
     }
     /**
-     * 结题检查：对已立项的项目设置实时间期限和项目应该上传的材料说明
+     * 结题检查：对通过中期检查的项目设置实时间期限和项目应该上传的材料说明
      */
     @ResponseBody
     @RequestMapping(value = "/last_set", method = RequestMethod.POST)
@@ -80,16 +84,23 @@ public class LastCheckController {
      */
     @ResponseBody
     @RequestMapping(value = "/Fupload_material", method = RequestMethod.POST, consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public String uploadMaterial(@RequestParam("file")MultipartFile file,@RequestParam("projectCode")int projectcode) {
-        String pathName = "/Fupload";
+    public Map uploadMaterial(@RequestParam("file") MultipartFile file,
+                              @RequestParam("projectCode") String projectcode) {
+        String pathName = "D:/";
         String fileName = file.getOriginalFilename();
         try{
             FileUtil.uploadFile(file.getBytes(),pathName,fileName);
         }catch (Exception e){
             e.printStackTrace();
         }
-        lastCheckService.saveLastAddress(projectcode,pathName+fileName);
-        return "File is upload successfully";
+        lastCheckService.saveLastAddress(Integer.parseInt(projectcode),pathName+fileName);
+        Map a = new HashMap();
+        a.put("msg","success");
+        a.put("code",0);
+        Project project = projectDao.findByCode(Integer.parseInt(projectcode));
+        project.setState(10);
+        projectDao.save(project);
+        return a;
     }
 
 
@@ -145,7 +156,6 @@ public class LastCheckController {
     }
     /**
      * 结题验收：审核
-     * @param
      */
     @ResponseBody
     @RequestMapping(value = "/Fset_status", method = RequestMethod.POST)

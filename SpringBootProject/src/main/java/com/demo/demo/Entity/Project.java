@@ -38,7 +38,7 @@ public class Project extends EntityBase{
     private String finreport;
 
     @Column
-    private Timestamp fintime;
+    private Date fintime;
 
     @Column
     private String finexplain;
@@ -123,11 +123,11 @@ public class Project extends EntityBase{
         this.finreport = finreport;
     }
 
-    public Timestamp getFintime() {
+    public Date getFintime() {
         return fintime;
     }
 
-    public void setFintime(Timestamp fintime) {
+    public void setFintime(Date fintime) {
         this.fintime = fintime;
     }
 }
