@@ -126,7 +126,7 @@
 		 
 		 form.on('submit(setrole)', function(data){
 			  $.ajax({
-				  url:"http://localhost:8800/user/distribute/"+userid,
+				  url:"/user/distribute/"+userid,
 				  data:data.field,
 				  success:function(){
 					  layer.msg("成功");
