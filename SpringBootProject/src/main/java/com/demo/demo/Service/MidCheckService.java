@@ -38,6 +38,9 @@ public class MidCheckService {
     @Autowired
     ProjectMemberDao projectMemberDao;
 
+    @Autowired
+    NewService newService;
+
     /**
      * 获取已经立项的项目列表
      */
@@ -92,7 +95,9 @@ public class MidCheckService {
         Project demo = projectDao.findByCode(code);
         demo.setMidexplain(comment);
         demo.setMidtime(new Date(new SimpleDateFormat("yyyy-MM-dd").parse(date).getTime()));
+        demo.setState(5);
         projectDao.save(demo);
+        newService.saveNew(demo.getCode(),demo.getState());
         return true;
     }
 
@@ -103,6 +108,8 @@ public class MidCheckService {
     public void saveMidAddress(int projectCode,String fileAddress){
         Project project = projectDao.findByCode(projectCode);
         project.setMidreport(fileAddress);
+        project.setState(6);
+        newService.saveNew(project.getCode(),project.getState());
         projectDao.save(project);
     }
 
@@ -144,5 +151,6 @@ public class MidCheckService {
         Project project = projectDao.findByCode(projectCode);
         project.setState(state);
         projectDao.save(project);
+        newService.saveNew(project.getCode(),project.getState());
     }
 }
