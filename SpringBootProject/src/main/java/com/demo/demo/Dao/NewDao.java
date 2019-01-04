@@ -9,5 +9,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface NewDao extends JpaRepository<New ,Integer> {
-    Page<New> findAllByUsercode(Specification<New> state, Pageable pageable);
+    Page<New> findAll(Specification<New> state, Pageable pageable);
 }
